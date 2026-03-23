@@ -5,21 +5,27 @@ import "vanilla-cookieconsent/dist/cookieconsent.css";
 import type { Metadata } from "next";
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { Fraunces, Manrope } from "next/font/google";
+import { Bangers, Comic_Neue } from "next/font/google";
 import { ClarityLoader } from "@/components/analytics/clarity-loader";
 import { CookieConsentBanner } from "@/components/analytics/cookie-consent";
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
 import { absoluteUrl, getBaseUrl, siteConfig } from "@/lib/site";
+import { mantineComicTheme } from "@/lib/theme/mantine-comic-theme";
 import "./globals.css";
+import "./comic-theme.css";
 
-const headingFont = Fraunces({
+const headingFont = Bangers({
+  display: "swap",
   variable: "--font-heading",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const bodyFont = Manrope({
+const bodyFont = Comic_Neue({
+  display: "swap",
   variable: "--font-body",
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -53,16 +59,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body className={`${headingFont.variable} ${bodyFont.variable}`}>
-        <MantineProvider
-          theme={{
-            primaryColor: "teal",
-            defaultRadius: "md",
-            fontFamily: "var(--font-body), sans-serif",
-            headings: {
-              fontFamily: "var(--font-heading), serif",
-            },
-          }}
-        >
+        <MantineProvider theme={mantineComicTheme}>
           <Notifications />
           <CookieConsentBanner />
           <ClarityLoader />

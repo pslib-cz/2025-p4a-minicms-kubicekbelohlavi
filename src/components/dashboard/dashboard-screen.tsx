@@ -364,7 +364,7 @@ export function DashboardScreen({ user }: DashboardScreenProps) {
         </AppShell.Header>
         <AppShell.Main>
           <Stack gap="lg">
-            <div className="dashboard-intro">
+            <div className="dashboard-intro" data-burst="Zap!">
               <span className="eyebrow">Client-side editorial workspace</span>
               <h1>Manage only your own content.</h1>
               <p>

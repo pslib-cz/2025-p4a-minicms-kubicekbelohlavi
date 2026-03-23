@@ -13,8 +13,8 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { zodResolver } from "mantine-form-zod-resolver";
 import { RichTextEditor } from "@/components/dashboard/rich-text-editor";
+import { formResolver } from "@/lib/validation/form-resolver";
 import { articleSchema } from "@/lib/validation/article";
 
 type ArticleValue = {
@@ -59,13 +59,16 @@ export function ArticleEditorModal({
 }: ArticleEditorModalProps) {
   const form = useForm<ArticleValue>({
     initialValues: value,
-    validate: zodResolver(articleSchema),
+    validate: formResolver(articleSchema),
   });
+  const { clearErrors, resetDirty, setInitialValues, setValues } = form;
 
   useEffect(() => {
-    form.setValues(value);
-    form.resetDirty(value);
-  }, [form, value]);
+    setInitialValues(value);
+    setValues(value);
+    resetDirty(value);
+    clearErrors();
+  }, [clearErrors, resetDirty, setInitialValues, setValues, value]);
 
   const handleSubmit = form.onSubmit((values) => onSubmit(values));
 

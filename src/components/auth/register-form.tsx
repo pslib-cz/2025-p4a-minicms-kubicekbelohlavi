@@ -11,8 +11,8 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { zodResolver } from "mantine-form-zod-resolver";
 import { registerSchema } from "@/lib/validation/auth";
+import { formResolver } from "@/lib/validation/form-resolver";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function RegisterForm() {
       email: "",
       password: "",
     },
-    validate: zodResolver(registerSchema),
+    validate: formResolver(registerSchema),
   });
 
   const handleSubmit = form.onSubmit(async (values) => {

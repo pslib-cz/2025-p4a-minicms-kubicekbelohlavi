@@ -5,8 +5,8 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Alert, Button, Group, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { zodResolver } from "mantine-form-zod-resolver";
 import { loginSchema } from "@/lib/validation/auth";
+import { formResolver } from "@/lib/validation/form-resolver";
 
 type LoginFormProps = {
   callbackUrl: string;
@@ -22,7 +22,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       email: "",
       password: "",
     },
-    validate: zodResolver(loginSchema),
+    validate: formResolver(loginSchema),
   });
 
   const handleSubmit = form.onSubmit(async (values) => {

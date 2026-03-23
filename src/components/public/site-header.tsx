@@ -5,7 +5,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container site-header-inner">
         <Link className="brand" href="/">
-          <span className="brand-mark">I</span>
+          <span className="brand-mark">Ink!</span>
           <span>Inkspire</span>
         </Link>
         <nav className="site-nav">

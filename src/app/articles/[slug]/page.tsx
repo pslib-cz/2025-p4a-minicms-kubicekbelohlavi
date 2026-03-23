@@ -57,7 +57,7 @@ export default async function ArticlePage({
 
   return (
     <div className="container article-page">
-      <div className="article-hero">
+      <div className="article-hero" data-burst="Read!">
         <div className="article-hero-copy">
           <span className="eyebrow">{article.category.name}</span>
           <h1>{article.title}</h1>

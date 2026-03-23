@@ -43,7 +43,7 @@ export default async function Home({
 
   return (
     <div className="container page-stack">
-      <section className="hero-card">
+      <section className="hero-card" data-burst="Pow!">
         <div className="hero-copy">
           <span className="eyebrow">Public section rendered on the server</span>
           <h1>Editorial publishing with fast indexing and a protected dashboard.</h1>
@@ -79,7 +79,7 @@ export default async function Home({
         tags={tags}
       />
       {featured ? (
-        <section className="featured-card">
+        <section className="featured-card" data-burst="Wow!">
           <div className="featured-copy">
             <span className="eyebrow">Featured article</span>
             <h2>{featured.title}</h2>
