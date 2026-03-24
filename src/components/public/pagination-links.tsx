@@ -35,23 +35,23 @@ export function PaginationLinks({
   }
 
   return (
-    <nav className="pagination">
+    <nav aria-label="Stránkování archivu" className="pagination">
       <Link
         aria-disabled={page <= 1}
         className={`secondary-button ${page <= 1 ? "is-disabled" : ""}`}
         href={createHref(searchParams, page - 1)}
       >
-        Previous
+        Předchozí
       </Link>
-      <span>
-        Page {page} of {totalPages}
+      <span className="pagination-status">
+        Strana {page} z {totalPages}
       </span>
       <Link
         aria-disabled={page >= totalPages}
         className={`secondary-button ${page >= totalPages ? "is-disabled" : ""}`}
         href={createHref(searchParams, page + 1)}
       >
-        Next
+        Další
       </Link>
     </nav>
   );

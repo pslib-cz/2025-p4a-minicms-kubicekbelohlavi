@@ -76,7 +76,7 @@ export async function createArticleMutationInput(
   if (Number.isNaN(publishDate.getTime())) {
     return {
       success: false as const,
-      issues: { fieldErrors: { publishDate: ["Publish date is invalid"] } },
+      issues: { fieldErrors: { publishDate: ["Datum vydání je neplatné."] } },
     };
   }
 
@@ -100,14 +100,16 @@ export async function createArticleMutationInput(
   if (!category) {
     return {
       success: false as const,
-      issues: { fieldErrors: { categoryId: ["Selected category does not exist"] } },
+      issues: { fieldErrors: { categoryId: ["Vybraná rubrika neexistuje."] } },
     };
   }
 
   if (tags.length !== input.tagIds.length) {
     return {
       success: false as const,
-      issues: { fieldErrors: { tagIds: ["One or more selected tags are invalid"] } },
+      issues: {
+        fieldErrors: { tagIds: ["Jeden nebo více vybraných štítků je neplatných."] },
+      },
     };
   }
 

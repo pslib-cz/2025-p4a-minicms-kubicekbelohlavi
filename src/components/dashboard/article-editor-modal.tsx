@@ -14,37 +14,22 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { RichTextEditor } from "@/components/dashboard/rich-text-editor";
+import type {
+  EditorValue,
+  TaxonomyItem,
+} from "@/components/dashboard/dashboard-types";
 import { formResolver } from "@/lib/validation/form-resolver";
 import { articleSchema } from "@/lib/validation/article";
 
-type ArticleValue = {
-  id?: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  coverImage: string;
-  status: "DRAFT" | "PUBLISHED";
-  publishDate: string;
-  categoryId: string;
-  tagIds: string[];
-};
-
-type TaxonomyOption = {
-  id: string;
-  name: string;
-  slug: string;
-};
-
 type ArticleEditorModalProps = {
-  categories: TaxonomyOption[];
+  categories: TaxonomyItem[];
   error: string | null;
   loading: boolean;
   onClose: () => void;
-  onSubmit: (values: ArticleValue) => void;
+  onSubmit: (values: EditorValue) => void;
   opened: boolean;
-  tags: TaxonomyOption[];
-  value: ArticleValue;
+  tags: TaxonomyItem[];
+  value: EditorValue;
 };
 
 export function ArticleEditorModal({
@@ -57,7 +42,7 @@ export function ArticleEditorModal({
   tags,
   value,
 }: ArticleEditorModalProps) {
-  const form = useForm<ArticleValue>({
+  const form = useForm<EditorValue>({
     initialValues: value,
     validate: formResolver(articleSchema),
   });
@@ -78,49 +63,49 @@ export function ArticleEditorModal({
       onClose={onClose}
       opened={opened}
       size="xl"
-      title={value.id ? "Edit article" : "Create article"}
+      title={value.id ? "Upravit článek" : "Nový článek"}
     >
       <form onSubmit={handleSubmit}>
         <Stack>
           {error ? <Alert color="red">{error}</Alert> : null}
           {!categories.length ? (
             <Alert color="yellow">
-              Create at least one category before saving an article.
+              Před uložením článku nejdřív vytvořte alespoň jednu rubriku.
             </Alert>
           ) : null}
           <TextInput
-            label="Title"
-            placeholder="A precise, editorial title"
+            label="Titulek"
+            placeholder="Úderný titul pro cover story"
             {...form.getInputProps("title")}
           />
           <Group grow>
             <TextInput
               label="Slug"
-              placeholder="auto-generated-if-empty"
+              placeholder="vygeneruje-se-pokud-nechate-prazdne"
               {...form.getInputProps("slug")}
             />
             <TextInput
-              label="Cover image URL"
+              label="URL cover obrázku"
               placeholder="https://images.unsplash.com/..."
               {...form.getInputProps("coverImage")}
             />
           </Group>
           <Textarea
             autosize
-            label="Excerpt"
+            label="Perex"
             minRows={3}
-            placeholder="A concise summary for cards and metadata"
+            placeholder="Krátké shrnutí pro kartu, metadata a splash hero"
             {...form.getInputProps("excerpt")}
           />
-          <Group grow align="flex-start">
+          <Group align="flex-start" grow>
             <Select
               allowDeselect={false}
               data={categories.map((category) => ({
                 label: category.name,
                 value: category.id,
               }))}
-              label="Category"
-              placeholder="Choose category"
+              label="Rubrika"
+              placeholder="Vyberte rubriku"
               searchable
               {...form.getInputProps("categoryId")}
             />
@@ -129,31 +114,31 @@ export function ArticleEditorModal({
                 label: tag.name,
                 value: tag.id,
               }))}
-              label="Tags"
-              placeholder="Select tags"
+              label="Štítky"
+              placeholder="Vyberte štítky"
               searchable
               {...form.getInputProps("tagIds")}
             />
           </Group>
           <Group grow>
             <TextInput
-              label="Publish date"
+              label="Datum vydání"
               type="datetime-local"
               {...form.getInputProps("publishDate")}
             />
             <Select
               allowDeselect={false}
               data={[
-                { label: "Draft", value: "DRAFT" },
-                { label: "Published", value: "PUBLISHED" },
+                { label: "Koncept", value: "DRAFT" },
+                { label: "Publikováno", value: "PUBLISHED" },
               ]}
-              label="Status"
+              label="Stav"
               {...form.getInputProps("status")}
             />
           </Group>
           <div>
             <label className="editor-label" htmlFor="article-content">
-              Content
+              Obsah
             </label>
             <RichTextEditor
               onChange={(nextValue) => form.setFieldValue("content", nextValue)}
@@ -165,10 +150,10 @@ export function ArticleEditorModal({
           </div>
           <Group justify="flex-end">
             <Button onClick={onClose} type="button" variant="default">
-              Cancel
+              Zrušit
             </Button>
             <Button disabled={!categories.length} loading={loading} type="submit">
-              {value.id ? "Save changes" : "Create article"}
+              {value.id ? "Uložit změny" : "Vytvořit článek"}
             </Button>
           </Group>
         </Stack>

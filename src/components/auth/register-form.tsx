@@ -43,7 +43,7 @@ export function RegisterForm() {
     if (!registerResponse.ok) {
       const data = (await registerResponse.json()) as { error?: string };
       setLoading(false);
-      setError(data.error ?? "Registration failed.");
+      setError(data.error ?? "Registrace selhala.");
       return;
     }
 
@@ -56,7 +56,7 @@ export function RegisterForm() {
     setLoading(false);
 
     if (!signInResponse || signInResponse.error) {
-      setError("Account created, but automatic sign-in failed.");
+      setError("Účet byl vytvořen, ale automatické přihlášení selhalo.");
       return;
     }
 
@@ -69,22 +69,22 @@ export function RegisterForm() {
       <Stack>
         {error ? <Alert color="red">{error}</Alert> : null}
         <TextInput
-          label="Name"
-          placeholder="Alice Editor"
+          label="Jméno"
+          placeholder="Alice Editorka"
           {...form.getInputProps("name")}
         />
         <TextInput
-          label="Email"
+          label="E-mail"
           placeholder="alice@example.com"
           {...form.getInputProps("email")}
         />
         <PasswordInput
-          label="Password"
-          placeholder="At least 8 characters"
+          label="Heslo"
+          placeholder="Alespoň 8 znaků"
           {...form.getInputProps("password")}
         />
         <Button loading={loading} type="submit">
-          Create account
+          Vytvořit účet
         </Button>
       </Stack>
     </form>

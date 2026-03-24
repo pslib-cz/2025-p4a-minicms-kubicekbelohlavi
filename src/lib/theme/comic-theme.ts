@@ -50,8 +50,8 @@ export const comicThemeColors = {
 } as const;
 
 export const comicFontStacks = {
-  body: 'var(--font-body), "Trebuchet MS", sans-serif',
-  heading: 'var(--font-heading), Impact, fantasy',
+  body: 'var(--font-body), "Segoe UI", "Arial Unicode MS", sans-serif',
+  heading: 'var(--font-heading), "Arial Black", sans-serif',
 } as const;
 
 export const comicLibraryRecommendations = [

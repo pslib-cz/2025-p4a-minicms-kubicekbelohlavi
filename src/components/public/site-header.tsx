@@ -9,10 +9,10 @@ export function SiteHeader() {
           <span>Inkspire</span>
         </Link>
         <nav className="site-nav">
-          <Link href="/">Published articles</Link>
-          <Link href="/dashboard">Dashboard</Link>
-          <Link href="/login">Sign in</Link>
-          <Link href="/register">Register</Link>
+          <Link href="/">Titulka</Link>
+          <Link href="/dashboard">Studio</Link>
+          <Link href="/login">Přihlášení</Link>
+          <Link href="/register">Registrace</Link>
         </nav>
       </div>
     </header>

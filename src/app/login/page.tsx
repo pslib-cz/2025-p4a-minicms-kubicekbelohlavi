@@ -18,15 +18,15 @@ export default async function LoginPage({
   return (
     <div className="container">
       <AuthShell
-        description="Use the protected editorial workspace to create, edit, publish and delete only your own content."
-        eyebrow="Auth.js credentials sign-in"
-        title="Sign in to the dashboard"
+        description="Vstupte do chráněného studia, kde můžete vytvářet, upravovat, publikovat a mazat jen svůj vlastní obsah."
+        eyebrow="Přihlášení do redakčního studia"
+        title="Otevřít editor studio"
       >
         <Paper p="xl" radius="lg" shadow="sm" withBorder>
           <Stack>
             <LoginForm callbackUrl={callbackUrl} />
             <Text c="dimmed" size="sm">
-              Need an account? <Link href="/register">Create one here.</Link>
+              Ještě nemáte účet? <Link href="/register">Založte si ho tady.</Link>
             </Text>
           </Stack>
         </Paper>

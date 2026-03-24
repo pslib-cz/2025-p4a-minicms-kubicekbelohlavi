@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { searchParams } = new URL(request.url);
@@ -29,14 +29,14 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const body = await request.json();
   const payload = await createArticleMutationInput(body, user.id);
 
   if (!payload.success) {
-    return jsonError("Validation failed", 400, payload.issues);
+    return jsonError("Validace selhala.", 400, payload.issues);
   }
 
   const article = await prisma.article.create({

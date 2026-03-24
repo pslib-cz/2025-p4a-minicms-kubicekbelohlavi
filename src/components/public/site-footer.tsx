@@ -8,13 +8,13 @@ export function SiteFooter() {
         <div>
           <p className="footer-title">Inkspire</p>
           <p className="footer-copy">
-            Next.js publishing platform with Prisma, Auth.js, protected Route
-            Handlers, analytics consent, and SEO support.
+            Český komiksový magazín s vlastním Next.js CMS, chráněným redakčním
+            studiem, Route Handlery a analytikou pouze po souhlasu.
           </p>
         </div>
         <div className="footer-links">
-          <Link href="/">Home</Link>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/">Titulka</Link>
+          <Link href="/dashboard">Studio</Link>
           <CookieSettingsButton />
         </div>
       </div>

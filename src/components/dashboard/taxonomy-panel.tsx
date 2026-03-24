@@ -13,25 +13,41 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
-
-type TaxonomyItem = {
-  id: string;
-  name: string;
-  slug: string;
-  _count?: {
-    articles: number;
-  };
-};
+import type { TaxonomyItem } from "@/components/dashboard/dashboard-types";
 
 type TaxonomyPanelProps = {
   endpoint: "/api/dashboard/categories" | "/api/dashboard/tags";
+  itemLabel: "rubrika" | "štítek";
   items: TaxonomyItem[];
   onRefresh: () => Promise<void>;
   title: string;
 };
 
+function getObjectForm(itemLabel: "rubrika" | "štítek") {
+  return itemLabel === "rubrika" ? "rubriku" : "štítek";
+}
+
+function getDeletePrompt(itemLabel: "rubrika" | "štítek") {
+  return itemLabel === "rubrika"
+    ? "Opravdu smazat tuto rubriku?"
+    : "Opravdu smazat tento štítek?";
+}
+
+function getAddedMessage(itemLabel: "rubrika" | "štítek") {
+  return itemLabel === "rubrika"
+    ? "Rubrika byla přidána."
+    : "Štítek byl přidán.";
+}
+
+function getDeletedMessage(itemLabel: "rubrika" | "štítek") {
+  return itemLabel === "rubrika"
+    ? "Rubrika byla smazána."
+    : "Štítek byl smazán.";
+}
+
 export function TaxonomyPanel({
   endpoint,
+  itemLabel,
   items,
   onRefresh,
   title,
@@ -39,6 +55,7 @@ export function TaxonomyPanel({
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [loading, setLoading] = useState(false);
+  const objectForm = getObjectForm(itemLabel);
 
   const handleCreate = async () => {
     setLoading(true);
@@ -57,18 +74,22 @@ export function TaxonomyPanel({
     if (!response.ok) {
       notifications.show({
         color: "red",
-        message: data.error ?? `Failed to create ${title.toLowerCase()}.`,
+        message: data.error ?? `Nepodařilo se vytvořit ${objectForm}.`,
       });
       return;
     }
 
     setName("");
     setSlug("");
+    notifications.show({
+      color: "teal",
+      message: getAddedMessage(itemLabel),
+    });
     await onRefresh();
   };
 
   const handleDelete = async (id: string) => {
-    const confirmed = window.confirm(`Delete this ${title.toLowerCase().slice(0, -1)}?`);
+    const confirmed = window.confirm(getDeletePrompt(itemLabel));
 
     if (!confirmed) {
       return;
@@ -82,38 +103,43 @@ export function TaxonomyPanel({
     if (!response.ok) {
       notifications.show({
         color: "red",
-        message: data.error ?? `Failed to delete ${title.toLowerCase()}.`,
+        message: data.error ?? `Nepodařilo se smazat ${objectForm}.`,
       });
       return;
     }
 
+    notifications.show({
+      color: "teal",
+      message: getDeletedMessage(itemLabel),
+    });
     await onRefresh();
   };
 
   return (
-    <Card p="lg" radius="lg" shadow="sm" withBorder>
+    <Card className="taxonomy-panel-card" p="lg" radius="lg" shadow="sm" withBorder>
       <Stack>
         <div>
           <Text fw={700} size="lg">
             {title}
           </Text>
           <Text c="dimmed" size="sm">
-            Create reusable taxonomy items for filtering and editorial structure.
+            Skládejte si vlastní redakční navigaci, kterou pak použijete ve filtrech
+            i v editoru.
           </Text>
         </div>
         <TextInput
-          label={`${title.slice(0, -1)} name`}
+          label={`Název ${itemLabel}`}
           onChange={(event) => setName(event.currentTarget.value)}
           value={name}
         />
         <TextInput
           label="Slug"
           onChange={(event) => setSlug(event.currentTarget.value)}
-          placeholder="Optional"
+          placeholder="Volitelné"
           value={slug}
         />
         <Button disabled={!name.trim()} loading={loading} onClick={handleCreate}>
-          Add {title.slice(0, -1).toLowerCase()}
+          Přidat {objectForm}
         </Button>
         <Stack gap="sm">
           {items.map((item) => (
@@ -125,14 +151,14 @@ export function TaxonomyPanel({
                     {item.slug}
                   </Badge>
                   {typeof item._count?.articles === "number" ? (
-                    <Badge color="blue" variant="light">
-                      {item._count.articles} articles
+                    <Badge color="heroBlue" variant="light">
+                      {item._count.articles} článků
                     </Badge>
                   ) : null}
                 </Group>
               </div>
               <ActionIcon
-                aria-label={`Delete ${item.name}`}
+                aria-label={`Smazat ${item.name}`}
                 color="red"
                 onClick={() => void handleDelete(item.id)}
                 variant="light"

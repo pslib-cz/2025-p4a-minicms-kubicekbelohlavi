@@ -14,7 +14,7 @@ export async function PATCH(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -22,7 +22,7 @@ export async function PATCH(
   const parsed = taxonomySchema.safeParse(body);
 
   if (!parsed.success) {
-    return jsonError("Validation failed", 400, parsed.error.flatten());
+    return jsonError("Validace selhala.", 400, parsed.error.flatten());
   }
 
   const category = await prisma.category.findFirst({
@@ -34,7 +34,7 @@ export async function PATCH(
   });
 
   if (!category) {
-    return jsonError("Category not found", 404);
+    return jsonError("Rubrika nebyla nalezena.", 404);
   }
 
   const name = parsed.data.name.trim();
@@ -48,7 +48,7 @@ export async function PATCH(
   });
 
   if (duplicate) {
-    return jsonError("Category name or slug already exists", 409);
+    return jsonError("Rubrika nebo slug už existuje.", 409);
   }
 
   const item = await prisma.category.update({
@@ -71,7 +71,7 @@ export async function DELETE(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -91,11 +91,11 @@ export async function DELETE(
   });
 
   if (!category) {
-    return jsonError("Category not found", 404);
+    return jsonError("Rubrika nebyla nalezena.", 404);
   }
 
   if (category._count.articles > 0) {
-    return jsonError("Category cannot be deleted while articles still use it", 409);
+    return jsonError("Rubriku nelze smazat, dokud ji používají články.", 409);
   }
 
   await prisma.category.delete({

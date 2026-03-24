@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type TaxonomyItem = {
   id: string;
   name: string;
@@ -23,13 +25,18 @@ export function ArticleFilters({
     <form className="filter-card" method="get">
       <div className="filter-grid">
         <div className="filter-field">
-          <label htmlFor="q">Search</label>
-          <input defaultValue={query} id="q" name="q" placeholder="Search title or text" />
+          <label htmlFor="q">Hledání</label>
+          <input
+            defaultValue={query}
+            id="q"
+            name="q"
+            placeholder="Název článku nebo text"
+          />
         </div>
         <div className="filter-field">
-          <label htmlFor="category">Category</label>
+          <label htmlFor="category">Rubrika</label>
           <select defaultValue={selectedCategory || ""} id="category" name="category">
-            <option value="">All categories</option>
+            <option value="">Všechny rubriky</option>
             {categories.map((category) => (
               <option key={category.id} value={category.slug}>
                 {category.name}
@@ -38,9 +45,9 @@ export function ArticleFilters({
           </select>
         </div>
         <div className="filter-field">
-          <label htmlFor="tag">Tag</label>
+          <label htmlFor="tag">Štítek</label>
           <select defaultValue={selectedTag || ""} id="tag" name="tag">
-            <option value="">All tags</option>
+            <option value="">Všechny štítky</option>
             {tags.map((tag) => (
               <option key={tag.id} value={tag.slug}>
                 {tag.name}
@@ -51,13 +58,12 @@ export function ArticleFilters({
       </div>
       <div className="filter-actions">
         <button className="primary-button" type="submit">
-          Apply filters
+          Filtrovat
         </button>
         <Link className="secondary-button" href="/">
-          Reset
+          Vyčistit
         </Link>
       </div>
     </form>
   );
 }
-import Link from "next/link";

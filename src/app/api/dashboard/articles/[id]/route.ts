@@ -14,14 +14,14 @@ export async function GET(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
   const article = await getDashboardArticleById(user.id, id);
 
   if (!article) {
-    return jsonError("Article not found", 404);
+    return jsonError("Článek nebyl nalezen.", 404);
   }
 
   return NextResponse.json({ item: article });
@@ -34,7 +34,7 @@ export async function PATCH(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -47,14 +47,14 @@ export async function PATCH(
   });
 
   if (!existing) {
-    return jsonError("Article not found", 404);
+    return jsonError("Článek nebyl nalezen.", 404);
   }
 
   const body = await request.json();
   const payload = await createArticleMutationInput(body, user.id, id);
 
   if (!payload.success) {
-    return jsonError("Validation failed", 400, payload.issues);
+    return jsonError("Validace selhala.", 400, payload.issues);
   }
 
   await prisma.article.update({
@@ -87,7 +87,7 @@ export async function DELETE(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -100,7 +100,7 @@ export async function DELETE(
   });
 
   if (!existing) {
-    return jsonError("Article not found", 404);
+    return jsonError("Článek nebyl nalezen.", 404);
   }
 
   await prisma.article.delete({

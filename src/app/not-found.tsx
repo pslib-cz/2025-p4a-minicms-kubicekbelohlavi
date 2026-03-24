@@ -3,10 +3,10 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <div className="container empty-state">
-      <h2>Not found</h2>
-      <p>The requested page or article does not exist.</p>
+      <h2>Tohle okno do paralelního čísla je prázdné.</h2>
+      <p>Požadovaná stránka nebo článek v archivu neexistuje.</p>
       <Link className="primary-button" href="/">
-        Back to homepage
+        Zpět na titulku
       </Link>
     </div>
   );

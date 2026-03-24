@@ -10,7 +10,7 @@ export async function GET() {
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const items = await getUserCategories(user.id);
@@ -22,14 +22,14 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const body = await request.json();
   const parsed = taxonomySchema.safeParse(body);
 
   if (!parsed.success) {
-    return jsonError("Validation failed", 400, parsed.error.flatten());
+    return jsonError("Validace selhala.", 400, parsed.error.flatten());
   }
 
   const name = parsed.data.name.trim();
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   });
 
   if (existing) {
-    return jsonError("Category name or slug already exists", 409);
+    return jsonError("Rubrika nebo slug už existuje.", 409);
   }
 
   const category = await prisma.category.create({

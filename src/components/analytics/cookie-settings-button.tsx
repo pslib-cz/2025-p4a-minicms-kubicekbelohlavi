@@ -9,7 +9,7 @@ export function CookieSettingsButton() {
       onClick={() => CookieConsent.showPreferences()}
       type="button"
     >
-      Cookie settings
+      Nastavení cookies
     </button>
   );
 }

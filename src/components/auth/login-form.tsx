@@ -39,7 +39,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
     setLoading(false);
 
     if (!result || result.error) {
-      setError("Invalid email or password.");
+      setError("Neplatný e-mail nebo heslo.");
       return;
     }
 
@@ -52,20 +52,20 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
       <Stack>
         {error ? <Alert color="red">{error}</Alert> : null}
         <TextInput
-          label="Email"
+          label="E-mail"
           placeholder="alice@example.com"
           {...form.getInputProps("email")}
         />
         <PasswordInput
-          label="Password"
-          placeholder="Your password"
+          label="Heslo"
+          placeholder="Vaše heslo"
           {...form.getInputProps("password")}
         />
         <Button loading={loading} type="submit">
-          Sign in
+          Přihlásit se
         </Button>
         <Group justify="space-between">
-          <span className="auth-hint">Demo: alice@example.com / DemoPassword123!</span>
+          <span className="auth-hint">Demo účet: alice@example.com / DemoPassword123!</span>
         </Group>
       </Stack>
     </form>

@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const parsed = registerSchema.safeParse(body);
 
   if (!parsed.success) {
-    return jsonError("Validation failed", 400, parsed.error.flatten());
+    return jsonError("Validace selhala.", 400, parsed.error.flatten());
   }
 
   const email = parsed.data.email.toLowerCase();
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   });
 
   if (existingUser) {
-    return jsonError("A user with this email already exists", 409);
+    return jsonError("Uživatel s tímto e-mailem už existuje.", 409);
   }
 
   const passwordHash = await hash(parsed.data.password, 10);

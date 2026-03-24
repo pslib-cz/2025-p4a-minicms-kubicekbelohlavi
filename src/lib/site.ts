@@ -1,10 +1,10 @@
 export const siteConfig = {
   name: "Inkspire",
   description:
-    "A modern publishing platform built with Next.js App Router, Prisma, Auth.js, and a client-driven editorial dashboard.",
+    "Český komiksový magazín s energií titulních splash pages, redakčním studiem a vlastním Next.js CMS.",
   pageSize: 6,
   dashboardPageSize: 8,
-  consentRevision: 1,
+  consentRevision: 2,
 };
 
 export function getBaseUrl() {

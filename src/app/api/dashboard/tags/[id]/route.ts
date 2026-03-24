@@ -14,7 +14,7 @@ export async function PATCH(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -22,7 +22,7 @@ export async function PATCH(
   const parsed = taxonomySchema.safeParse(body);
 
   if (!parsed.success) {
-    return jsonError("Validation failed", 400, parsed.error.flatten());
+    return jsonError("Validace selhala.", 400, parsed.error.flatten());
   }
 
   const tag = await prisma.tag.findFirst({
@@ -34,7 +34,7 @@ export async function PATCH(
   });
 
   if (!tag) {
-    return jsonError("Tag not found", 404);
+    return jsonError("Štítek nebyl nalezen.", 404);
   }
 
   const name = parsed.data.name.trim();
@@ -48,7 +48,7 @@ export async function PATCH(
   });
 
   if (duplicate) {
-    return jsonError("Tag name or slug already exists", 409);
+    return jsonError("Štítek nebo slug už existuje.", 409);
   }
 
   const item = await prisma.tag.update({
@@ -71,7 +71,7 @@ export async function DELETE(
   const user = await getCurrentUser();
 
   if (!user) {
-    return jsonError("Unauthorized", 401);
+    return jsonError("Nejste přihlášeni.", 401);
   }
 
   const { id } = await params;
@@ -84,7 +84,7 @@ export async function DELETE(
   });
 
   if (!tag) {
-    return jsonError("Tag not found", 404);
+    return jsonError("Štítek nebyl nalezen.", 404);
   }
 
   await prisma.tag.delete({

@@ -14,7 +14,7 @@ export function AuthShell({
   title,
 }: AuthShellProps) {
   return (
-    <section className="auth-layout" data-burst="Bam!">
+    <section className="auth-layout" data-burst="Vstup!">
       <div className="auth-hero">
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
