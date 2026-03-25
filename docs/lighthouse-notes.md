@@ -2,12 +2,13 @@
 
 Audit target:
 
-- URL: `http://localhost:3001`
-- Date: `2026-03-16`
+- URL: `http://localhost:3002`
+- Date: `2026-03-25`
+- Lighthouse: `13.0.3`
 - Command:
 
 ```bash
-npx lighthouse http://localhost:3001 \
+npx lighthouse http://localhost:3002 \
   --quiet \
   --chrome-flags='--headless --no-sandbox' \
   --only-categories=seo,accessibility,best-practices \
@@ -23,5 +24,5 @@ Result summary:
 
 Resolved during the audit pass:
 
-- Primary CTA buttons originally failed contrast checks.
-- The accent palette was darkened until Lighthouse no longer reported any contrast failures.
+- Re-ran the audit after the magazine redesign and Czech copy cleanup.
+- Public remote images now use per-image `unoptimized` delivery, which removed the `/_next/image` timeout and `500` console errors seen during the first post-redesign audit attempt.

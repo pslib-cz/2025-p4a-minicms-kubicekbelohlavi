@@ -54,7 +54,7 @@ export function DashboardArticlesPanel({
         <Group justify="space-between">
           <div>
             <Text fw={700} size="lg">
-              Redakční deck
+              Redakční přehled
             </Text>
             <Text c="dimmed" size="sm">
               {totalArticles} článků, rychlé publikování a přímý vstup do editoru.
@@ -124,7 +124,7 @@ export function DashboardArticlesPanel({
                         variant="light"
                       >
                         {article.status === "PUBLISHED"
-                          ? "Stáhnout do draftu"
+                          ? "Stáhnout do konceptu"
                           : "Publikovat"}
                       </Button>
                       <ActionIcon
@@ -150,9 +150,9 @@ export function DashboardArticlesPanel({
           </div>
         ) : (
           <div className="dashboard-empty-state">
-            <Text fw={700}>V decku zatím není žádný příběh.</Text>
+            <Text fw={700}>V přehledu zatím není žádný příběh.</Text>
             <Text c="dimmed" size="sm">
-              Rozjeďte první draft a postavte z něj další titulku.
+              Rozjeďte první koncept a postavte z něj další titulku.
             </Text>
             <Button onClick={onCreate}>Vytvořit první článek</Button>
           </div>

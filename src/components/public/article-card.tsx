@@ -29,6 +29,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
   const publishedAt = new Intl.DateTimeFormat("cs-CZ", {
     dateStyle: "medium",
   }).format(new Date(article.publishDate));
+  const coverImageIsRemote = Boolean(article.coverImage?.startsWith("http"));
 
   return (
     <article className="article-card panel-card" data-burst={formatPanelNumber(index)}>
@@ -39,6 +40,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           src={article.coverImage || "/window.svg"}
+          unoptimized={coverImageIsRemote}
         />
       </Link>
       <div className="article-card-body">
@@ -55,7 +57,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
         </p>
         <div className="article-meta article-panel-links">
           <Link href={`/?category=${article.category.slug}`}>{article.category.name}</Link>
-          <Link href={`/articles/${article.slug}`}>Otevřít splash</Link>
+          <Link href={`/articles/${article.slug}`}>Otevřít článek</Link>
         </div>
         <div className="tag-list">
           {article.tags.map((tag) => (

@@ -8,8 +8,8 @@ export function SiteFooter() {
         <div>
           <p className="footer-title">Inkspire</p>
           <p className="footer-copy">
-            Český komiksový magazín s vlastním Next.js CMS, chráněným redakčním
-            studiem, Route Handlery a analytikou pouze po souhlasu.
+            Český komiksový magazín s vlastním CMS v Next.js, chráněným redakčním
+            studiem, serverovou logikou a analytikou pouze po souhlasu.
           </p>
         </div>
         <div className="footer-links">

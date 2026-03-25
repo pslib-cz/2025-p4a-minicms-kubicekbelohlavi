@@ -44,6 +44,7 @@ export default async function Home({
   const leadPublishDate = featured?.publishDate ?? result.items[0]?.publishDate ?? new Date();
   const issueLabel = formatIssueLabel(leadPublishDate);
   const archiveLabel = formatArticleCount(result.total);
+  const featuredImageIsRemote = Boolean(featured?.coverImage?.startsWith("http"));
 
   return (
     <div className="container page-stack">
@@ -51,10 +52,10 @@ export default async function Home({
         <div className="hero-copy issue-cover-copy">
           <span className="eyebrow">Serverově kreslené vydání</span>
           <p className="issue-kicker">Vydání {issueLabel}</p>
-          <h1>Český komiksový magazín, který řeže stránku jako splash panel.</h1>
+          <h1>Český komiksový magazín, který řeže stránku jako celostránkový panel.</h1>
           <p>
             {siteConfig.description} Veřejná část drží serverovou disciplínu,
-            redakční studio běží klientsky a každá story má vlastní API stopu,
+            redakční studio běží klientsky a každý článek má vlastní API stopu,
             metadata i filtrování.
           </p>
           <div className="hero-actions">
@@ -82,7 +83,7 @@ export default async function Home({
               <strong>{tags.length}</strong>
             </div>
             <div className="issue-stat-card">
-              <span>Lead story</span>
+              <span>Hlavní článek</span>
               <strong>{featured ? "Ano" : "Archiv"}</strong>
             </div>
             <div className="issue-stat-card">
@@ -98,6 +99,7 @@ export default async function Home({
             priority
             sizes="(max-width: 960px) 100vw, 40vw"
             src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80"
+            unoptimized
           />
           <div className="issue-cover-caption">
             Halftone svět, diagonály a redakční rytmus v jednom čísle.
@@ -112,9 +114,9 @@ export default async function Home({
         tags={tags}
       />
       {featured ? (
-        <section className="featured-card cover-story" data-burst="Cover!">
+        <section className="featured-card cover-story" data-burst="Titulka!">
           <div className="featured-copy cover-story-copy">
-            <span className="eyebrow">Hlavní story čísla</span>
+            <span className="eyebrow">Hlavní článek čísla</span>
             <p className="issue-kicker">
               {featured.category.name} / {formatIssueLabel(featured.publishDate)}
             </p>
@@ -138,7 +140,7 @@ export default async function Home({
             </div>
             <div className="hero-actions">
               <Link className="primary-button" href={`/articles/${featured.slug}`}>
-                Číst splash page
+                Číst článek
               </Link>
               <Link className="secondary-button" href={`/?category=${featured.category.slug}`}>
                 Další z rubriky
@@ -151,6 +153,7 @@ export default async function Home({
               fill
               sizes="(max-width: 960px) 100vw, 42vw"
               src={featured.coverImage || "/window.svg"}
+              unoptimized={featuredImageIsRemote}
             />
             <div className="cover-story-badge">Titulka</div>
           </div>

@@ -14,7 +14,7 @@ export function DashboardStudioHero({
       <span className="eyebrow">Klientské redakční studio</span>
       <h1>Spravujte jen vlastní příběhy, ale s energií titulní strany.</h1>
       <p>
-        Všechny akce jdou přes chráněné Route Handlery, takže autentizace,
+        Všechny akce jdou přes chráněnou serverovou vrstvu, takže autentizace,
         vlastnictví i validace zůstávají pod kontrolou serveru.
       </p>
       <div className="studio-stat-grid">

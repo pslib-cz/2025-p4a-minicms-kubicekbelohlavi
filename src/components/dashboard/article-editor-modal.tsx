@@ -75,7 +75,7 @@ export function ArticleEditorModal({
           ) : null}
           <TextInput
             label="Titulek"
-            placeholder="Úderný titul pro cover story"
+            placeholder="Úderný titulek pro hlavní článek"
             {...form.getInputProps("title")}
           />
           <Group grow>
@@ -85,7 +85,7 @@ export function ArticleEditorModal({
               {...form.getInputProps("slug")}
             />
             <TextInput
-              label="URL cover obrázku"
+              label="Adresa titulního obrázku"
               placeholder="https://images.unsplash.com/..."
               {...form.getInputProps("coverImage")}
             />
@@ -94,7 +94,7 @@ export function ArticleEditorModal({
             autosize
             label="Perex"
             minRows={3}
-            placeholder="Krátké shrnutí pro kartu, metadata a splash hero"
+            placeholder="Krátké shrnutí pro kartu, metadata a úvodní celostranu"
             {...form.getInputProps("excerpt")}
           />
           <Group align="flex-start" grow>

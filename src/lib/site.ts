@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Inkspire",
   description:
-    "Český komiksový magazín s energií titulních splash pages, redakčním studiem a vlastním Next.js CMS.",
+    "Český komiksový magazín s energií titulních celostránkových panelů, redakčním studiem a vlastním CMS v Next.js.",
   pageSize: 6,
   dashboardPageSize: 8,
   consentRevision: 2,

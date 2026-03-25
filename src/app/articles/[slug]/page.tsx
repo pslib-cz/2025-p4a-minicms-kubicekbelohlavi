@@ -56,9 +56,11 @@ export default async function ArticlePage({
     notFound();
   }
 
+  const coverImageIsRemote = Boolean(article.coverImage?.startsWith("http"));
+
   return (
     <div className="container article-page">
-      <div className="article-hero splash-hero" data-burst="Splash!">
+      <div className="article-hero splash-hero" data-burst="Celostrana!">
         <div className="article-hero-copy splash-copy">
           <Link className="eyebrow splash-backlink" href="/">
             Zpět na titulku
@@ -88,6 +90,7 @@ export default async function ArticlePage({
             priority
             sizes="(max-width: 960px) 100vw, 44vw"
             src={article.coverImage || "/window.svg"}
+            unoptimized={coverImageIsRemote}
           />
           <div className="splash-caption">Plná stránka, tvrdé obrysy, čistý tah.</div>
         </div>

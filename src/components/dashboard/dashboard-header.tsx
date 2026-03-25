@@ -15,7 +15,7 @@ export function DashboardHeader({
   return (
     <Group className="dashboard-bar magazine-dashboard-bar" justify="space-between">
       <div className="dashboard-bar-copy">
-        <span className="eyebrow">Editor studio</span>
+        <span className="eyebrow">Redakční studio</span>
         <Text className="dashboard-bar-title" fw={700}>
           Studio Inkspire
         </Text>
