@@ -112,16 +112,16 @@ async function main() {
       authorId: alice.id,
       categoryId: coverLine.id,
       tagIds: [nextjs.id, raster.id],
-      title: "Jak postavit titulku, která funguje jako splash page pro celé číslo",
-      slug: "jak-postavit-titulku-ktera-funguje-jako-splash-page-pro-cele-cislo",
+      title: "Jak postavit titulku, která otevře celé číslo na první pohled",
+      slug: "jak-postavit-titulku-ktera-otevre-cele-cislo-na-prvni-pohled",
       excerpt:
-        "Serverová homepage a klientské studio mohou držet jeden rytmus, když je hierarchie pevná, kontrast čistý a cover story má jasnou prioritu.",
+        "Serverová titulka a klientské studio mohou držet jeden rytmus, když je hierarchie pevná, kontrast čistý a hlavní příběh má jasnou prioritu.",
       content: `
         <h2>Veřejná část musí mít tah</h2>
         <p>Když má magazín působit jako hotové číslo, nesmí titulka vypadat jako náhodný seznam článků. Serverové vykreslení drží pořadí, metadata i sitemapu pevně v rukou.</p>
         <p>App Router tu nechává veřejnou část rychlou a indexovatelnou, aniž by dashboard musel obětovat interaktivitu.</p>
         <h2>Studio zůstává živé</h2>
-        <p>Editor studio běží klientsky, ale mluví jen s Route Handlery. Vlastnictví obsahu a validace tak zůstávají na serveru, kde opravdu patří.</p>
+        <p>Redakční studio běží klientsky, ale mluví jen s Route Handlery. Vlastnictví obsahu a validace tak zůstávají na serveru, kde opravdu patří.</p>
       `,
       coverImage:
         "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80",
@@ -176,7 +176,7 @@ async function main() {
       excerpt:
         "Většinu času nežerou buildy. Čas mizí ve smyčkách schvalování, mlhavém vlastnictví a slabé disciplíně kolem metadat.",
       content: `
-        <p>Největší tření nepřichází až v pipeline. Přichází tehdy, když nikdo přesně neví, kdo drží draft, kdo smí publikovat a která metadata ještě chybí.</p>
+        <p>Největší tření nepřichází až v pipeline. Přichází tehdy, když nikdo přesně neví, kdo drží koncept, kdo smí publikovat a která metadata ještě chybí.</p>
         <p>Dashboard s explicitním vlastnictvím a jasným statusem umí tuhle mlhu odstranit překvapivě rychle.</p>
       `,
       coverImage:
@@ -188,12 +188,12 @@ async function main() {
       authorId: alice.id,
       categoryId: coverLine.id,
       tagIds: [raster.id, nextjs.id],
-      title: "Draft, datum vydání a proč musí být publikace naprosto čitelná",
-      slug: "draft-datum-vydani-a-proc-musi-byt-publikace-naprosto-citelna",
+      title: "Koncept, datum vydání a proč musí být publikace naprosto čitelná",
+      slug: "koncept-datum-vydani-a-proc-musi-byt-publikace-naprosto-citelna",
       excerpt:
         "Publikační stav musí být explicitní, čitelný a z UI i API naprosto jednoznačný. Bez toho se magazín rozsype do šumu.",
       content: `
-        <p>Publikační workflow začne praskat ve chvíli, kdy je stav jen naznačený. Bezpečnější je držet jasný draft nebo publikováno a doplnit ho konkrétním datem vydání.</p>
+        <p>Publikační workflow začne praskat ve chvíli, kdy je stav jen naznačený. Bezpečnější je držet jasný stav koncept nebo publikováno a doplnit ho konkrétním datem vydání.</p>
         <p>Přesně tohle v tomhle magazínu hlídá člankové API i editor modal.</p>
       `,
       coverImage:
@@ -205,13 +205,13 @@ async function main() {
       authorId: pavel.id,
       categoryId: panelStudio.id,
       tagIds: [diagonals.id, storytelling.id],
-      title: "Homepage, která působí jako číslo magazínu, ne jako odkladiště článků",
-      slug: "homepage-ktera-pusobi-jako-cislo-magazinu-ne-jako-odkladiste-clanku",
+      title: "Titulka, která působí jako číslo magazínu, ne jako odkladiště článků",
+      slug: "titulka-ktera-pusobi-jako-cislo-magazinu-ne-jako-odkladiste-clanku",
       excerpt:
         "Titulka potřebuje hierarchii, kontrast a tempo. Reverzní chronologie je jen technický základ, ne redakční řešení.",
       content: `
-        <p>Čtenář pozná záměr během pár sekund. Stejně rychle pozná i to, když homepage jen vysype poslední články bez rytmu.</p>
-        <p>Silná titulka používá cover story, hmatatelné karty, záměrné mezery a štítky jako tematické signposty.</p>
+        <p>Čtenář pozná záměr během pár sekund. Stejně rychle pozná i to, když titulka jen vysype poslední články bez rytmu.</p>
+        <p>Silná titulka používá hlavní příběh, hmatatelné karty, záměrné mezery a štítky jako tematické rozcestníky.</p>
       `,
       coverImage:
         "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?auto=format&fit=crop&w=1200&q=80",
