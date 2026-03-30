@@ -13,15 +13,19 @@ export const revalidate = 60;
 type Params = Promise<{ slug: string }>;
 
 export async function generateStaticParams() {
-  const articles = await prisma.article.findMany({
-    where: {
-      status: "PUBLISHED",
-      publishDate: { lte: new Date() },
-    },
-    select: { slug: true },
-  });
+  try {
+    const articles = await prisma.article.findMany({
+      where: {
+        status: "PUBLISHED",
+        publishDate: { lte: new Date() },
+      },
+      select: { slug: true },
+    });
 
-  return articles.map((article) => ({ slug: article.slug }));
+    return articles.map((article) => ({ slug: article.slug }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({
