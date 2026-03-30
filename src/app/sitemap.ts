@@ -3,18 +3,23 @@ import { prisma } from "@/lib/prisma";
 import { absoluteUrl } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles = await prisma.article.findMany({
-    where: {
-      status: "PUBLISHED",
-      publishDate: {
-        lte: new Date(),
+  let articles: { slug: string; updatedAt: Date }[] = [];
+  try {
+    articles = await prisma.article.findMany({
+      where: {
+        status: "PUBLISHED",
+        publishDate: {
+          lte: new Date(),
+        },
       },
-    },
-    select: {
-      slug: true,
-      updatedAt: true,
-    },
-  });
+      select: {
+        slug: true,
+        updatedAt: true,
+      },
+    });
+  } catch {
+    // DB may not exist during Docker build
+  }
 
   return [
     {
