@@ -14,10 +14,10 @@ export function AuthShell({
   title,
 }: AuthShellProps) {
   return (
-    <section className="auth-layout" data-burst="Vstup!">
+    <section className="auth-layout" data-burst="THWIP!">
       <div className="auth-hero">
         <span className="eyebrow">{eyebrow}</span>
-        <h1>{title}</h1>
+        <h1 data-text={title}>{title}</h1>
         <p>{description}</p>
       </div>
       <div className="auth-card">{children}</div>

@@ -13,11 +13,11 @@ describe("comicThemeColors", () => {
   });
 
   it("keeps the primary comic red accent in the middle shade", () => {
-    expect(comicThemeColors.heroRed[5]).toBe("#ff3b30");
+    expect(comicThemeColors.heroRed[5]).toBe("#e23636");
   });
 
   it("keeps a dark ink palette for borders and typography", () => {
-    expect(comicThemeColors.heroInk[8]).toBe("#18253b");
+    expect(comicThemeColors.heroInk[8]).toBe("#1a1a1a");
   });
 });
 

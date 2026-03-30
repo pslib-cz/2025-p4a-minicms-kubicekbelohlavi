@@ -48,34 +48,44 @@ export default async function Home({
 
   return (
     <div className="container page-stack">
-      <section className="hero-card issue-cover" data-burst="Číslo!">
-        <div className="hero-copy issue-cover-copy">
-          <span className="eyebrow">Serverově kreslené vydání</span>
-          <p className="issue-kicker">Vydání {issueLabel}</p>
-          <h1>Český komiksový magazín, který řeže stránku jako celostránkový panel.</h1>
-          <p>
-            {siteConfig.description} Veřejná část drží serverovou disciplínu,
-            redakční studio běží klientsky a každý článek má vlastní API stopu,
-            metadata i filtrování.
-          </p>
-          <div className="hero-actions">
-            <Link className="primary-button" href="/dashboard">
-              Vstoupit do studia
-            </Link>
-            <a className="secondary-button" href={absoluteUrl("/sitemap.xml")}>
-              Projít sitemapu
-            </a>
-          </div>
+      <section className="hero-card hero-stacked" data-burst="THWIP!">
+        <div className="hero-banner">
+          <Image
+            alt="Spider-Verse inspired visual"
+            fill
+            priority
+            sizes="100vw"
+            src="https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=1600&q=80"
+            unoptimized
+          />
+          <div className="hero-banner-overlay" />
         </div>
-        <div className="issue-cover-sidebar">
-          <div className="issue-stat-card">
-            <span className="eyebrow">Tah čísla</span>
-            <strong>{archiveLabel}</strong>
-            <p>v archivu, který se dá filtrovat podle rubrik, štítků i fulltextu.</p>
+        <div className="hero-content">
+          <div className="hero-copy">
+            <span className="eyebrow">Spider-Verse vydání {issueLabel}</span>
+            <h1 data-text="Komiksový magazín z paralelních světů">
+              Komiksový magazín z paralelních světů
+            </h1>
+            <p>
+              Redakční studio, serverová logika a vlastní CMS v Next.js.
+              Každý článek má vlastní API, metadata i filtrování.
+            </p>
+            <div className="hero-actions">
+              <Link className="primary-button" href="/dashboard">
+                Vstoupit do studia
+              </Link>
+              <a className="secondary-button" href={absoluteUrl("/sitemap.xml")}>
+                Sitemap
+              </a>
+            </div>
           </div>
-          <div className="issue-stat-grid">
+          <div className="hero-stats">
             <div className="issue-stat-card">
-              <span>Rubriky</span>
+              <span>Články</span>
+              <strong>{archiveLabel}</strong>
+            </div>
+            <div className="issue-stat-card">
+              <span>Kategorie</span>
               <strong>{categories.length}</strong>
             </div>
             <div className="issue-stat-card">
@@ -83,26 +93,9 @@ export default async function Home({
               <strong>{tags.length}</strong>
             </div>
             <div className="issue-stat-card">
-              <span>Hlavní článek</span>
-              <strong>{featured ? "Ano" : "Archiv"}</strong>
-            </div>
-            <div className="issue-stat-card">
               <span>SEO</span>
               <strong>Sitemap + OG</strong>
             </div>
-          </div>
-        </div>
-        <div className="hero-visual issue-cover-visual">
-          <Image
-            alt="Koláž městských panelů a redakčního studia"
-            fill
-            priority
-            sizes="(max-width: 960px) 100vw, 40vw"
-            src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80"
-            unoptimized
-          />
-          <div className="issue-cover-caption">
-            Halftone svět, diagonály a redakční rytmus v jednom čísle.
           </div>
         </div>
       </section>
@@ -114,7 +107,7 @@ export default async function Home({
         tags={tags}
       />
       {featured ? (
-        <section className="featured-card cover-story" data-burst="Titulka!">
+        <section className="featured-card cover-story" data-burst="POW!">
           <div className="featured-copy cover-story-copy">
             <span className="eyebrow">Hlavní článek čísla</span>
             <p className="issue-kicker">
@@ -143,7 +136,7 @@ export default async function Home({
                 Číst článek
               </Link>
               <Link className="secondary-button" href={`/?category=${featured.category.slug}`}>
-                Další z rubriky
+                Další z kategorie
               </Link>
             </div>
           </div>
@@ -155,18 +148,18 @@ export default async function Home({
               src={featured.coverImage || "/window.svg"}
               unoptimized={featuredImageIsRemote}
             />
-            <div className="cover-story-badge">Titulka</div>
+            <div className="cover-story-badge">Titulní panel</div>
           </div>
         </section>
       ) : null}
       <section className="results-head">
         <div>
-          <span className="eyebrow">Archiv panelů</span>
-          <h2>{archiveLabel} v aktivním zorném poli</h2>
+          <span className="eyebrow">Archiv článků</span>
+          <h2>{archiveLabel} v archivu</h2>
         </div>
         <p>
-          Filtrujte titul, text, rubriku i štítky a přepínejte mezi stránkami jako
-          mezi jednotlivými čísly magazínu.
+          Prohledávejte články — filtrujte podle textu,
+          kategorií i štítků.
         </p>
       </section>
       {gridItems.length ? (
@@ -178,8 +171,8 @@ export default async function Home({
       ) : null}
       {!result.items.length ? (
         <div className="empty-state">
-          <h3>V archivu nic nezůstalo v záběru.</h3>
-          <p>Zkuste rozšířit hledání nebo vypnout aktivní rubriku či štítek.</p>
+          <h3>Žádné články neodpovídají vašemu hledání.</h3>
+          <p>Zkuste rozšířit hledání nebo změnit filtr.</p>
         </div>
       ) : null}
       <PaginationLinks

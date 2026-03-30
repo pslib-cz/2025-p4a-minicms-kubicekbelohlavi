@@ -1,0 +1,525 @@
+/* SPIDER-VERSE EFFECTS - Floating shapes, web lines, glitch, chromatic aberration, stamps, speed lines */
+
+/* ── Floating geometric shapes ── */
+.shape {
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.shape-1 {
+  top: 12%;
+  left: 4%;
+  width: 200px;
+  height: 200px;
+  background: var(--sv-magenta);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  animation: sv-float 10s ease-in-out infinite;
+}
+
+.shape-2 {
+  bottom: 15%;
+  right: 3%;
+  width: 280px;
+  height: 60px;
+  background: linear-gradient(90deg, var(--sv-blue), var(--sv-blue-light));
+  transform: skew(-25deg);
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  animation: sv-float 7s ease-in-out infinite reverse;
+}
+
+.shape-3 {
+  bottom: 30%;
+  left: 8%;
+  width: 120px;
+  height: 120px;
+  background: transparent;
+  border: 8px solid var(--sv-red);
+  border-radius: 50%;
+  opacity: 0.12;
+  animation: sv-pulse 3s ease-in-out infinite;
+}
+
+.shape-4 {
+  top: 6%;
+  right: 12%;
+  width: 80px;
+  height: 80px;
+  background: var(--sv-yellow);
+  clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+  opacity: 0.08;
+  mix-blend-mode: screen;
+  animation: sv-spin 14s linear infinite;
+}
+
+.shape-5 {
+  top: 55%;
+  right: 6%;
+  width: 70px;
+  height: 70px;
+  background: var(--sv-cyan);
+  transform: rotate(45deg);
+  opacity: 0.08;
+  mix-blend-mode: screen;
+  animation: sv-float 8s ease-in-out infinite 2s;
+}
+
+.shape-6 {
+  top: 0;
+  left: 15%;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(to bottom, transparent, rgba(226, 54, 54, 0.12) 30%, rgba(226, 54, 54, 0.12) 70%, transparent);
+  transform: rotate(15deg);
+  transform-origin: top center;
+}
+
+.shape-7 {
+  top: 0;
+  right: 20%;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(to bottom, transparent, rgba(27, 58, 140, 0.12) 20%, rgba(27, 58, 140, 0.12) 80%, transparent);
+  transform: rotate(-12deg);
+  transform-origin: top center;
+}
+
+/* ── Web corner decoration ── */
+.sv-web-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+.sv-web-corner::before,
+.sv-web-corner::after {
+  content: "";
+  position: absolute;
+}
+
+.sv-web-corner::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid rgba(226, 54, 54, 0.4);
+  border-right: 1px solid rgba(226, 54, 54, 0.4);
+  border-radius: 0 0 100% 0;
+}
+
+.sv-web-corner::after {
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 60%;
+  border-bottom: 1px solid rgba(226, 54, 54, 0.3);
+  border-right: 1px solid rgba(226, 54, 54, 0.3);
+  border-radius: 0 0 100% 0;
+}
+
+/* ── Spray paint splatters ── */
+.sv-splatter-red {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  width: 150px;
+  height: 150px;
+  opacity: 0.12;
+  filter: blur(8px);
+  background: radial-gradient(ellipse at 30% 40%, var(--sv-glow-red) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, var(--sv-glow-red) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, var(--sv-glow-red) 0%, transparent 70%);
+}
+
+.sv-splatter-blue {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  width: 120px;
+  height: 120px;
+  opacity: 0.12;
+  filter: blur(6px);
+  background: radial-gradient(ellipse at 40% 30%, var(--sv-glow-blue) 0%, transparent 55%),
+    radial-gradient(ellipse at 60% 70%, var(--sv-glow-blue) 0%, transparent 50%);
+}
+
+/* ── Chromatic aberration / glitch on [data-text] ── */
+[data-text] {
+  position: relative;
+}
+
+[data-text]::before,
+[data-text]::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  overflow: visible;
+  white-space: inherit;
+  word-break: inherit;
+  text-wrap: inherit;
+  line-height: inherit;
+}
+
+[data-text]::before {
+  left: 3px;
+  text-shadow: -2px 0 var(--sv-red);
+  clip-path: inset(10% 0 60% 0);
+  animation: sv-glitch-1 4s infinite linear alternate-reverse;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+[data-text]::after {
+  left: -3px;
+  text-shadow: 2px 0 var(--sv-cyan);
+  clip-path: inset(55% 0 10% 0);
+  animation: sv-glitch-2 3.5s infinite linear alternate-reverse;
+  z-index: -2;
+  opacity: 0.7;
+}
+
+/* ── Comic card stamp ── */
+.article-card-stamp {
+  position: absolute;
+  left: 0.8rem;
+  top: 0.8rem;
+  z-index: 2;
+  padding: 0.3rem 0.6rem;
+  border: 2px solid var(--sv-red);
+  border-radius: 3px;
+  background: var(--sv-red);
+  color: white;
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 2px 2px 0 var(--sv-blue);
+  transform: rotate(-2deg);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* ── Issue kicker ── */
+.issue-kicker {
+  font-family: var(--font-heading), Impact, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  position: relative;
+  color: var(--sv-magenta);
+  text-shadow: 0 0 10px var(--sv-glow-magenta);
+}
+
+.issue-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  background: var(--sv-magenta);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  box-shadow: 0 0 6px var(--sv-glow-magenta);
+}
+
+/* ── Halftone overlays on images ── */
+.issue-cover-visual::after,
+.cover-story-media::after,
+.splash-media::after,
+.dashboard-story-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle, rgba(226, 54, 54, 0.1) 1px, transparent 1px);
+  background-size: 5px 5px;
+}
+
+.hero-visual::after,
+.featured-media::after,
+.article-hero-media::after {
+  background: radial-gradient(circle, rgba(226, 54, 54, 0.1) 1px, transparent 1px),
+    radial-gradient(circle, rgba(27, 58, 140, 0.06) 0.8px, transparent 0.8px);
+  background-size: 4px 4px, 6px 6px;
+  background-position: 0 0, 2px 2px;
+}
+
+/* ── Captions & badges ── */
+.issue-cover-caption,
+.splash-caption,
+.cover-story-badge {
+  position: absolute;
+  left: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 2;
+  padding: 0.45rem 0.7rem;
+  border: 2px solid var(--sv-red);
+  border-radius: 4px;
+  background: rgba(10, 10, 18, 0.94);
+  color: var(--sv-cyan);
+  font-weight: 800;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 2px 2px 0 var(--sv-blue);
+  text-shadow: 0 0 6px var(--sv-glow-cyan);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Speed lines on hover ── */
+.sv-speed-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.sv-speed-lines::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(226, 54, 54, 0.05) 8px, rgba(226, 54, 54, 0.05) 10px);
+  transition: left 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sv-speed-lines:hover::before {
+  left: 0;
+}
+
+/* ── Neon glow utility ── */
+.sv-glow-text {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor, 0 0 80px currentColor;
+}
+
+/* ══ Keyframe animations ══ */
+@keyframes sv-float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-10px) rotate(3deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(8deg);
+  }
+
+  75% {
+    transform: translateY(-10px) rotate(4deg);
+  }
+}
+
+@keyframes sv-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.12;
+    border-color: var(--sv-red);
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.22;
+    border-color: var(--sv-magenta);
+  }
+}
+
+@keyframes sv-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sv-glitch-1 {
+  0% {
+    clip-path: inset(10% 0 60% 0);
+  }
+
+  8% {
+    clip-path: inset(40% 0 30% 0);
+  }
+
+  16% {
+    clip-path: inset(70% 0 5% 0);
+  }
+
+  24% {
+    clip-path: inset(5% 0 75% 0);
+  }
+
+  32% {
+    clip-path: inset(55% 0 15% 0);
+  }
+
+  40% {
+    clip-path: inset(20% 0 50% 0);
+  }
+
+  48% {
+    clip-path: inset(80% 0 0% 0);
+  }
+
+  56% {
+    clip-path: inset(0% 0 80% 0);
+  }
+
+  64% {
+    clip-path: inset(45% 0 25% 0);
+  }
+
+  72% {
+    clip-path: inset(15% 0 55% 0);
+  }
+
+  80% {
+    clip-path: inset(65% 0 10% 0);
+  }
+
+  88% {
+    clip-path: inset(30% 0 40% 0);
+  }
+
+  100% {
+    clip-path: inset(50% 0 20% 0);
+  }
+}
+
+@keyframes sv-glitch-2 {
+  0% {
+    clip-path: inset(60% 0 10% 0);
+  }
+
+  8% {
+    clip-path: inset(25% 0 45% 0);
+  }
+
+  16% {
+    clip-path: inset(5% 0 70% 0);
+  }
+
+  24% {
+    clip-path: inset(50% 0 20% 0);
+  }
+
+  32% {
+    clip-path: inset(75% 0 0% 0);
+  }
+
+  40% {
+    clip-path: inset(30% 0 40% 0);
+  }
+
+  48% {
+    clip-path: inset(0% 0 75% 0);
+  }
+
+  56% {
+    clip-path: inset(65% 0 5% 0);
+  }
+
+  64% {
+    clip-path: inset(10% 0 60% 0);
+  }
+
+  72% {
+    clip-path: inset(45% 0 25% 0);
+  }
+
+  80% {
+    clip-path: inset(35% 0 35% 0);
+  }
+
+  88% {
+    clip-path: inset(85% 0 0% 0);
+  }
+
+  100% {
+    clip-path: inset(20% 0 50% 0);
+  }
+}
+
+@keyframes sv-drift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(5px, -3px) scale(1.03);
+  }
+
+  66% {
+    transform: translate(-3px, 4px) scale(0.97);
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+
+  .shape,
+  [data-text]::before,
+  [data-text]::after {
+    animation: none !important;
+  }
+
+  .sv-speed-lines::before {
+    transition: none;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .shape {
+    opacity: 0.05;
+  }
+
+  .shape-1 {
+    width: 140px;
+    height: 140px;
+  }
+
+  .shape-2 {
+    width: 180px;
+    height: 40px;
+  }
+
+  .sv-web-corner {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .shape {
+    display: none;
+  }
+
+  .sv-splatter-red,
+  .sv-splatter-blue {
+    opacity: 0.06;
+  }
+}

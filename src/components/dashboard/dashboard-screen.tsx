@@ -1,18 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { startTransition, useEffect, useState } from "react";
 import { AppShell, Grid, Stack } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { ArticleEditorModal } from "@/components/dashboard/article-editor-modal";
 import { DashboardArticlesPanel } from "@/components/dashboard/dashboard-articles-panel";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { DashboardStudioHero } from "@/components/dashboard/dashboard-studio-hero";
 import {
-  EMPTY_EDITOR_VALUE,
   toEditorValue,
   type DashboardArticle,
-  type EditorValue,
   type TaxonomyItem,
 } from "@/components/dashboard/dashboard-types";
 import { TaxonomyPanel } from "@/components/dashboard/taxonomy-panel";
@@ -26,6 +24,7 @@ type DashboardScreenProps = {
 };
 
 export function DashboardScreen({ user }: DashboardScreenProps) {
+  const router = useRouter();
   const [articles, setArticles] = useState<DashboardArticle[]>([]);
   const [categories, setCategories] = useState<TaxonomyItem[]>([]);
   const [tags, setTags] = useState<TaxonomyItem[]>([]);
@@ -33,10 +32,6 @@ export function DashboardScreen({ user }: DashboardScreenProps) {
   const [totalArticles, setTotalArticles] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loadingArticles, setLoadingArticles] = useState(true);
-  const [savingArticle, setSavingArticle] = useState(false);
-  const [editorOpen, setEditorOpen] = useState(false);
-  const [editorError, setEditorError] = useState<string | null>(null);
-  const [editorValue, setEditorValue] = useState<EditorValue>(EMPTY_EDITOR_VALUE);
 
   const loadTaxonomies = async () => {
     const [categoryResponse, tagResponse] = await Promise.all([
@@ -155,64 +150,8 @@ export function DashboardScreen({ user }: DashboardScreenProps) {
     await Promise.all([loadTaxonomies(), loadArticles(page)]);
   };
 
-  const openCreateModal = () => {
-    setEditorError(null);
-    setEditorValue({
-      ...EMPTY_EDITOR_VALUE,
-      categoryId: categories[0]?.id ?? "",
-    });
-    setEditorOpen(true);
-  };
-
-  const openEditModal = (article: DashboardArticle) => {
-    setEditorError(null);
-    setEditorValue(toEditorValue(article));
-    setEditorOpen(true);
-  };
-
-  const handleSaveArticle = async (values: EditorValue) => {
-    setSavingArticle(true);
-    setEditorError(null);
-
-    const response = await fetch(
-      values.id ? `/api/dashboard/articles/${values.id}` : "/api/dashboard/articles",
-      {
-        method: values.id ? "PATCH" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      },
-    );
-    const data = (await response.json()) as {
-      details?: { fieldErrors?: Record<string, string[]> };
-      error?: string;
-    };
-
-    setSavingArticle(false);
-
-    if (!response.ok) {
-      const fieldErrors = data.details?.fieldErrors
-        ? Object.values(data.details.fieldErrors)
-            .flat()
-            .filter(Boolean)
-            .join(" ")
-        : "";
-      setEditorError(fieldErrors || data.error || "Nepodařilo se uložit článek.");
-      return;
-    }
-
-    setEditorOpen(false);
-    notifications.show({
-      color: "teal",
-      message: values.id ? "Článek byl upraven." : "Článek byl vytvořen.",
-    });
-    setLoadingArticles(true);
-    await loadArticles(page);
-  };
-
   const handleDeleteArticle = async (article: DashboardArticle) => {
-    const confirmed = window.confirm(`Opravdu smazat článek „${article.title}“?`);
+    const confirmed = window.confirm(`Opravdu smazat článek "${article.title}"?`);
 
     if (!confirmed) {
       return;
@@ -263,77 +202,65 @@ export function DashboardScreen({ user }: DashboardScreenProps) {
   };
 
   return (
-    <>
-      <AppShell header={{ height: 92 }} padding="lg">
-        <AppShell.Header>
-          <DashboardHeader
-            onCreate={openCreateModal}
-            onSignOut={() => void signOut({ callbackUrl: "/" })}
-            userLabel={user.name || user.email || "Redakční identita"}
+    <AppShell header={{ height: 92 }} padding="lg">
+      <AppShell.Header>
+        <DashboardHeader
+          onCreate={() => router.push("/dashboard/articles/new")}
+          onSignOut={() => void signOut({ callbackUrl: "/" })}
+          userLabel={user.name || user.email || "Redakce"}
+        />
+      </AppShell.Header>
+      <AppShell.Main>
+        <Stack gap="lg">
+          <DashboardStudioHero
+            articleCount={totalArticles}
+            categoryCount={categories.length}
+            tagCount={tags.length}
           />
-        </AppShell.Header>
-        <AppShell.Main>
-          <Stack gap="lg">
-            <DashboardStudioHero
-              articleCount={totalArticles}
-              categoryCount={categories.length}
-              tagCount={tags.length}
-            />
-            <Grid gutter="lg">
-              <Grid.Col span={{ base: 12, lg: 8 }}>
-                <DashboardArticlesPanel
-                  articles={articles}
-                  loading={loadingArticles}
-                  onCreate={openCreateModal}
-                  onDelete={(article) => void handleDeleteArticle(article)}
-                  onEdit={openEditModal}
-                  onNextPage={() => {
-                    setLoadingArticles(true);
-                    startTransition(() => setPage((current) => current + 1));
-                  }}
-                  onPreviousPage={() => {
-                    setLoadingArticles(true);
-                    startTransition(() => setPage((current) => current - 1));
-                  }}
-                  onToggleStatus={(article) => void handleToggleStatus(article)}
-                  page={page}
-                  pageSize={siteConfig.dashboardPageSize}
-                  totalArticles={totalArticles}
-                  totalPages={totalPages}
+          <Grid gutter="lg">
+            <Grid.Col span={{ base: 12, lg: 8 }}>
+              <DashboardArticlesPanel
+                articles={articles}
+                loading={loadingArticles}
+                onCreate={() => router.push("/dashboard/articles/new")}
+                onDelete={(article) => void handleDeleteArticle(article)}
+                onEdit={(article) => router.push(`/dashboard/articles/${article.id}/edit`)}
+                onNextPage={() => {
+                  setLoadingArticles(true);
+                  startTransition(() => setPage((current) => current + 1));
+                }}
+                onPreviousPage={() => {
+                  setLoadingArticles(true);
+                  startTransition(() => setPage((current) => current - 1));
+                }}
+                onToggleStatus={(article) => void handleToggleStatus(article)}
+                page={page}
+                pageSize={siteConfig.dashboardPageSize}
+                totalArticles={totalArticles}
+                totalPages={totalPages}
+              />
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, lg: 4 }}>
+              <Stack>
+                <TaxonomyPanel
+                  endpoint="/api/dashboard/categories"
+                  itemLabel="rubrika"
+                  items={categories}
+                  onRefresh={refreshAll}
+                  title="Kategorie"
                 />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, lg: 4 }}>
-                <Stack>
-                  <TaxonomyPanel
-                    endpoint="/api/dashboard/categories"
-                    itemLabel="rubrika"
-                    items={categories}
-                    onRefresh={refreshAll}
-                    title="Rubriky"
-                  />
-                  <TaxonomyPanel
-                    endpoint="/api/dashboard/tags"
-                    itemLabel="štítek"
-                    items={tags}
-                    onRefresh={refreshAll}
-                    title="Štítky"
-                  />
-                </Stack>
-              </Grid.Col>
-            </Grid>
-          </Stack>
-        </AppShell.Main>
-      </AppShell>
-      <ArticleEditorModal
-        categories={categories}
-        error={editorError}
-        loading={savingArticle}
-        onClose={() => setEditorOpen(false)}
-        onSubmit={(values) => void handleSaveArticle(values)}
-        opened={editorOpen}
-        tags={tags}
-        value={editorValue}
-      />
-    </>
+                <TaxonomyPanel
+                  endpoint="/api/dashboard/tags"
+                  itemLabel="štítek"
+                  items={tags}
+                  onRefresh={refreshAll}
+                  title="Štítky"
+                />
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </Stack>
+      </AppShell.Main>
+    </AppShell>
   );
 }

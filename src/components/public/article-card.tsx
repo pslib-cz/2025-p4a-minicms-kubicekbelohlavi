@@ -32,7 +32,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
   const coverImageIsRemote = Boolean(article.coverImage?.startsWith("http"));
 
   return (
-    <article className="article-card panel-card" data-burst={formatPanelNumber(index)}>
+    <article className="article-card panel-card sv-speed-lines" data-burst={formatPanelNumber(index)}>
       <Link className="article-card-media" href={`/articles/${article.slug}`}>
         <span className="article-card-stamp">{article.category.name}</span>
         <Image
@@ -57,7 +57,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
         </p>
         <div className="article-meta article-panel-links">
           <Link href={`/?category=${article.category.slug}`}>{article.category.name}</Link>
-          <Link href={`/articles/${article.slug}`}>Otevřít článek</Link>
+          <Link href={`/articles/${article.slug}`}>Číst článek</Link>
         </div>
         <div className="tag-list">
           {article.tags.map((tag) => (

@@ -1,60 +1,27 @@
+/* ═══════════════════════════════════════════════════════════
+   COMIC THEME - Spider-Verse Miles Morales Edition
+   Thick borders, chromatic text shadows, skewed panels,
+   tag pills, blockquotes, graffiti text-stroke feel
+   ═══════════════════════════════════════════════════════════ */
+
 :root {
-  --comic-ink: #101520;
-  --comic-red: #ff3b30;
-  --comic-red-deep: #c92318;
-  --comic-yellow: #ffc400;
-  --comic-blue: #2668ff;
-  --comic-cream: #fff9ec;
-  --comic-paper: rgba(255, 252, 245, 0.95);
-  --comic-shadow: 8px 8px 0 rgba(16, 21, 32, 0.92);
-  --comic-border: 4px solid var(--comic-ink);
-  --comic-dots:
-    radial-gradient(circle, rgba(16, 21, 32, 0.13) 0 1.5px, transparent 1.7px);
+  --comic-ink: #f6d8d5;
+  --comic-red: var(--sv-red);
+  --comic-red-deep: #8b0000;
+  --comic-blue: var(--sv-blue);
+  --comic-cyan: var(--sv-cyan);
+  --comic-magenta: var(--sv-magenta);
+  --comic-yellow: var(--sv-yellow);
+  --comic-paper: var(--sv-panel);
 }
 
 body {
   color: var(--comic-ink);
-  background:
-    radial-gradient(circle at 14% 14%, rgba(255, 196, 0, 0.35), transparent 18%),
-    radial-gradient(circle at 84% 8%, rgba(38, 104, 255, 0.2), transparent 18%),
-    linear-gradient(135deg, rgba(255, 59, 48, 0.14), transparent 42%),
-    linear-gradient(180deg, #fff8de 0%, #fff3cf 100%);
 }
 
-.site-shell {
-  position: relative;
-  isolation: isolate;
-}
-
-.site-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.8;
-  background-image: var(--comic-dots);
-  background-size: 18px 18px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.22), transparent 70%);
-  pointer-events: none;
-}
-
-.site-header,
-.site-footer {
-  background:
-    linear-gradient(90deg, rgba(255, 196, 0, 0.92), rgba(255, 232, 117, 0.9)),
-    var(--comic-paper);
-  border-color: var(--comic-ink);
-}
-
-.site-header {
-  border-bottom: 4px solid var(--comic-ink);
-  box-shadow: 0 6px 0 rgba(16, 21, 32, 0.92);
-}
-
-.site-footer {
-  border-top: 4px solid var(--comic-ink);
-}
-
+/* ═══════════════════════════════════
+   ALL HEADINGS - uppercase, chromatic
+   ═══════════════════════════════════ */
 .brand,
 .footer-title,
 .hero-copy h1,
@@ -71,133 +38,48 @@ body {
 .article-prose h4 {
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  text-wrap: balance;
+}
+
+/* Graffiti feel: bold text-stroke on major headings */
+.hero-copy h1,
+.article-hero-copy h1,
+.auth-hero h1,
+.dashboard-intro h1 {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.35);
+  paint-order: stroke fill;
 }
 
 .brand {
-  font-size: 1.45rem;
+  font-size: 1.4rem;
 }
 
-.brand-mark {
-  width: auto;
-  min-width: 4.2rem;
-  padding: 0 0.75rem;
-  border-radius: 0.9rem;
-  border: var(--comic-border);
-  background: linear-gradient(180deg, var(--comic-red), var(--comic-red-deep));
-  color: #fff9d1;
-  transform: rotate(-4deg);
-  text-transform: uppercase;
-  font-family: var(--font-heading), Impact, fantasy;
-  letter-spacing: 0.08em;
-}
-
-.site-nav a,
-.footer-links a,
-.footer-link-button {
-  min-height: 2.65rem;
-  padding: 0 0.95rem;
-  border: 3px solid var(--comic-ink);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 3px 3px 0 rgba(16, 21, 32, 0.92);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.hero-card,
-.featured-card,
-.filter-card,
-.article-card,
-.empty-state,
-.article-hero,
-.auth-layout,
-.article-prose,
-.dashboard-intro {
-  position: relative;
-  overflow: hidden;
-  border: var(--comic-border);
-  border-radius: 1.4rem;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 249, 236, 0.98)),
-    var(--comic-paper);
-  box-shadow: var(--comic-shadow);
-}
-
-.hero-card::before,
-.featured-card::before,
-.article-card::before,
-.article-hero::before,
-.auth-layout::before,
-.dashboard-intro::before {
-  content: "";
-  position: absolute;
-  inset: auto -1.5rem -1.5rem auto;
-  width: 9rem;
-  height: 9rem;
-  background:
-    radial-gradient(circle, rgba(255, 196, 0, 0.7) 0 10%, transparent 11%),
-    var(--comic-dots);
-  background-size: 100% 100%, 12px 12px;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-[data-burst]::after {
-  content: attr(data-burst);
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  padding: 0.55rem 0.9rem;
-  border: var(--comic-border);
-  background: var(--comic-red);
-  color: #fff6af;
-  font-family: var(--font-heading), Impact, fantasy;
-  font-size: 1.2rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  box-shadow: 4px 4px 0 rgba(16, 21, 32, 0.92);
-  clip-path: polygon(
-    50% 0%,
-    61% 22%,
-    84% 10%,
-    74% 33%,
-    100% 38%,
-    78% 53%,
-    91% 77%,
-    66% 70%,
-    61% 100%,
-    43% 74%,
-    16% 86%,
-    27% 57%,
-    0% 50%,
-    24% 35%,
-    12% 9%,
-    39% 23%
-  );
-}
-
-.hero-card,
-.featured-card,
-.article-hero {
-  padding: 1.8rem;
-}
-
-.hero-copy h1,
-.article-hero-copy h1 {
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
-  line-height: 0.92;
-  text-shadow: 3px 3px 0 rgba(255, 196, 0, 0.85);
-}
-
+/* ─── Chromatic text-shadow on card headings ─── */
 .featured-copy h2,
 .article-card h3,
 .auth-hero h1,
 .dashboard-intro h1 {
-  text-shadow: 2px 2px 0 rgba(255, 196, 0, 0.75);
+  text-shadow:
+    2px 2px 0 var(--sv-blue),
+    -1px -1px 0 var(--sv-red),
+    0 0 12px rgba(226, 54, 54, 0.15);
 }
 
+/* ─── Enhanced heading sizes ─── */
+.featured-copy h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.15;
+}
+
+.article-card h3 {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.dashboard-intro h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 0.92;
+}
+
+/* ─── Body text: soft pink-white for dark theme ─── */
 .hero-copy p,
 .featured-copy p,
 .article-hero-copy p,
@@ -208,210 +90,192 @@ body {
 .footer-copy,
 .auth-hint,
 .dashboard-intro p {
-  color: #2b3850;
-  font-size: 1.02rem;
+  color: #c8c0c4;
+  font-size: 1rem;
 }
 
-.eyebrow {
-  padding: 0.4rem 0.8rem;
-  border: 3px solid var(--comic-ink);
-  border-radius: 999px;
-  background: #fff3a2;
-  color: var(--comic-red-deep);
-  font-weight: 900;
-  letter-spacing: 0.14em;
-}
-
-.primary-button,
-.secondary-button,
-.footer-link-button {
-  min-height: 3rem;
-  padding: 0 1.15rem;
-  border: 3px solid var(--comic-ink);
-  border-radius: 999px;
-  box-shadow: 4px 4px 0 rgba(16, 21, 32, 0.92);
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.primary-button {
-  background: linear-gradient(180deg, var(--comic-red), var(--comic-red-deep));
-  color: #fff8c8;
-}
-
-.secondary-button,
-.footer-link-button {
-  background: linear-gradient(180deg, #3f83ff, var(--comic-blue));
-  color: white;
-}
-
-.primary-button:hover,
-.secondary-button:hover,
-.footer-link-button:hover,
-.site-nav a:hover,
-.footer-links a:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 rgba(16, 21, 32, 0.92);
-}
-
-.filter-card,
-.dashboard-intro {
-  padding: 1.35rem;
-}
-
-.filter-field input,
-.filter-field select {
-  border: 3px solid var(--comic-ink);
-  background: #fffdf7;
-  box-shadow: inset 0 -2px 0 rgba(16, 21, 32, 0.08);
-}
-
-.results-head {
-  align-items: center;
-}
-
-.article-grid {
-  gap: 1.8rem;
-}
-
+/* ═══════════════════════════════════
+   ARTICLE CARD SKEW & PANEL FEEL
+   Comic book panel rotation
+   ═══════════════════════════════════ */
 .article-card {
-  transform: rotate(-1deg);
+  transform: rotate(-1deg) skewY(-0.3deg);
 }
 
 .article-card:nth-child(even) {
-  transform: rotate(1deg);
+  transform: rotate(1deg) skewY(0.3deg);
 }
 
+.article-card:nth-child(3n) {
+  transform: rotate(-1.5deg) skewY(-0.5deg);
+}
+
+.article-card:hover {
+  transform: rotate(0deg) translateY(-5px) scale(1.03) !important;
+}
+
+/* Thick red divider between image and body */
 .article-card-media {
-  border-bottom: 4px solid var(--comic-ink);
+  border-bottom: 4px solid var(--sv-red);
 }
 
-.article-card-body {
-  gap: 0.85rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 249, 236, 0.94));
-}
-
+/* ─── Tag pills: Spider-Verse style ─── */
 .tag-pill {
-  border: 2px solid var(--comic-ink);
-  background: #fff1a4;
-  color: var(--comic-blue);
+  border: 2px solid var(--sv-blue);
+  background: rgba(27, 58, 140, 0.18);
+  color: var(--sv-cyan);
   font-weight: 900;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  position: relative;
 }
 
-.article-prose {
-  line-height: 1.75;
+.tag-pill::before {
+  content: "#";
+  opacity: 0.5;
+  margin-right: 1px;
 }
 
+/* ─── Blockquote: magenta accent bar with glow ─── */
 .article-prose blockquote {
-  border-left: 6px solid var(--comic-red);
-  background: #fff3a2;
-  border-radius: 1rem;
+  border-left: 5px solid var(--sv-magenta);
+  background: rgba(255, 45, 149, 0.05);
+  border-radius: 4px;
   padding: 1rem 1.2rem;
   font-style: normal;
   font-weight: 700;
+  position: relative;
+  box-shadow: inset 4px 0 12px rgba(255, 45, 149, 0.08);
 }
 
+.article-prose blockquote::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.3rem;
+  left: 0.5rem;
+  font-size: 3rem;
+  font-family: var(--font-heading), Impact, sans-serif;
+  color: var(--sv-magenta);
+  opacity: 0.25;
+  line-height: 1;
+}
+
+/* ─── Code blocks ─── */
+.article-prose code {
+  background: rgba(27, 58, 140, 0.2);
+  border: 1px solid var(--sv-blue);
+  border-radius: 3px;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.9em;
+  color: var(--sv-cyan);
+}
+
+.article-prose pre {
+  background: rgba(6, 6, 16, 0.9);
+  border: 2px solid var(--sv-blue);
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: 4px 4px 0 var(--sv-red);
+}
+
+.article-prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* ─── Horizontal rule: red/blue gradient ─── */
+.article-prose hr {
+  border: none;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sv-red), var(--sv-blue), var(--sv-magenta));
+  margin: 2rem 0;
+  border-radius: 2px;
+}
+
+/* ─── Links in cards get cyan glow ─── */
+.article-card a:hover h3 {
+  text-shadow:
+    3px 3px 0 var(--sv-blue),
+    -2px -2px 0 var(--sv-red),
+    0 0 20px var(--sv-glow-red);
+}
+
+/* ─── Thick panel borders on major sections ─── */
+.hero-card,
+.featured-card,
+.article-hero,
 .dashboard-intro {
-  display: grid;
-  gap: 0.85rem;
+  border-width: 4px;
 }
 
-.dashboard-intro h1 {
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  line-height: 0.92;
+/* ─── Empty state styling ─── */
+.empty-state h2,
+.empty-state h3 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
-.mantine-AppShell-header,
-.mantine-Card-root,
-.mantine-Paper-root,
-.mantine-Modal-content,
-.mantine-Alert-root,
-.mantine-RichTextEditor-root,
-.mantine-RichTextEditor-toolbar,
-.mantine-RichTextEditor-content {
-  border: 3px solid var(--comic-ink);
-  box-shadow: 6px 6px 0 rgba(16, 21, 32, 0.92);
+.empty-state p {
+  color: var(--ink-600);
 }
 
-.mantine-AppShell-header {
-  background: linear-gradient(90deg, #ffe45c, #fff2a2);
+/* ─── Auth hero graffiti feel ─── */
+.auth-hero h1 {
+  -webkit-text-stroke: 2px rgba(0, 0, 0, 0.3);
 }
 
-.mantine-Card-root,
-.mantine-Paper-root,
-.mantine-Modal-content,
-.mantine-Alert-root,
-.mantine-RichTextEditor-content {
-  background: #fffdf8;
+.auth-hero p {
+  color: #c8c0c4;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
-.mantine-Button-root,
-.mantine-ActionIcon-root,
-.mantine-Badge-root,
-.mantine-Input-input,
-.mantine-Input-section,
-.mantine-MultiSelect-pill,
-.mantine-Modal-header {
-  border: 3px solid var(--comic-ink);
+/* ─── Dashboard intro text ─── */
+.dashboard-intro p {
+  font-size: 1.05rem;
+  max-width: 60ch;
 }
 
-.mantine-Button-root,
-.mantine-ActionIcon-root,
-.mantine-Badge-root {
-  box-shadow: 3px 3px 0 rgba(16, 21, 32, 0.92);
+/* ─── Filter card comic panel border ─── */
+.filter-card {
+  border-width: 3px;
 }
 
-.mantine-Button-label,
-.mantine-Badge-label,
-.mantine-Modal-title {
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+/* ─── Eyebrow label glow ─── */
+.eyebrow {
+  text-shadow: 0 0 10px var(--sv-glow-cyan);
 }
 
-.mantine-Input-input,
-.mantine-MultiSelect-pill,
-.mantine-Select-dropdown,
-.mantine-MultiSelect-dropdown {
-  background: #fffdf7;
-}
-
-.mantine-Table-table th,
-.mantine-Table-table td {
-  border-color: rgba(16, 21, 32, 0.18);
-}
-
-.mantine-Table-table thead th {
-  background: #fff1a4;
-  color: var(--comic-ink);
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.mantine-Table-table tbody tr:hover {
-  background: rgba(255, 196, 0, 0.12);
-}
-
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
 @media (max-width: 960px) {
-  [data-burst]::after {
-    top: 0.7rem;
-    right: 0.7rem;
-    font-size: 1rem;
-  }
-
-  .site-nav a,
-  .footer-links a,
-  .footer-link-button {
-    justify-content: center;
-  }
 
   .article-card,
-  .article-card:nth-child(even) {
+  .article-card:nth-child(even),
+  .article-card:nth-child(3n) {
     transform: none;
+  }
+
+  .hero-card,
+  .featured-card,
+  .article-hero,
+  .dashboard-intro {
+    border-width: 3px;
+  }
+}
+
+@media (max-width: 600px) {
+  .featured-copy h2 {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+
+  .article-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .dashboard-intro h1 {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
   }
 }

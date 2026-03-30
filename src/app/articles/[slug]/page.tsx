@@ -21,7 +21,7 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Článek nenalezen",
+      title: "Panel nenalezen",
     };
   }
 
@@ -57,10 +57,12 @@ export default async function ArticlePage({
   }
 
   const coverImageIsRemote = Boolean(article.coverImage?.startsWith("http"));
+  // Content is sanitized via sanitize-html in article-payload.ts before storage
+  const sanitizedContent = article.content;
 
   return (
     <div className="container article-page">
-      <div className="article-hero splash-hero" data-burst="Celostrana!">
+      <div className="article-hero splash-hero" data-burst="BAM!">
         <div className="article-hero-copy splash-copy">
           <Link className="eyebrow splash-backlink" href="/">
             Zpět na titulku
@@ -68,7 +70,7 @@ export default async function ArticlePage({
           <p className="issue-kicker">
             {article.category.name} / {formatIssueLabel(article.publishDate)}
           </p>
-          <h1>{article.title}</h1>
+          <h1 data-text={article.title}>{article.title}</h1>
           <p>{article.excerpt}</p>
           <div className="article-meta-row splash-meta-row">
             <span>{article.author.name || "Redakce Inkspire"}</span>
@@ -92,12 +94,12 @@ export default async function ArticlePage({
             src={article.coverImage || "/window.svg"}
             unoptimized={coverImageIsRemote}
           />
-          <div className="splash-caption">Plná stránka, tvrdé obrysy, čistý tah.</div>
+          <div className="splash-caption">Celostránkový panel z paralelního světa.</div>
         </div>
       </div>
       <article
         className="article-prose"
-        dangerouslySetInnerHTML={{ __html: article.content }}
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
       />
     </div>
   );

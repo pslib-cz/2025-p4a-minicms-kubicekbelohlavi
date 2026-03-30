@@ -18,15 +18,15 @@ export default async function LoginPage({
   return (
     <div className="container">
       <AuthShell
-        description="Vstupte do chráněného studia, kde můžete vytvářet, upravovat, publikovat a mazat jen svůj vlastní obsah."
-        eyebrow="Přihlášení do redakčního studia"
-        title="Otevřít editor studio"
+        description="Vstupte do Spider-Studia, kde spravujete panely z vaší dimenze — vytvářejte, upravujte a publikujte vlastní příběhy."
+        eyebrow="Přihlášení do Spider-Studia"
+        title="Vstupte do multiverzálního editoru"
       >
         <Paper p="xl" radius="lg" shadow="sm" withBorder>
           <Stack>
             <LoginForm callbackUrl={callbackUrl} />
             <Text c="dimmed" size="sm">
-              Ještě nemáte účet? <Link href="/register">Založte si ho tady.</Link>
+              Ještě nemáte identitu? <Link href="/register">Založte si ji tady.</Link>
             </Text>
           </Stack>
         </Paper>

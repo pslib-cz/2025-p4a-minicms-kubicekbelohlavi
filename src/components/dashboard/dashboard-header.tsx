@@ -17,7 +17,7 @@ export function DashboardHeader({
       <div className="dashboard-bar-copy">
         <span className="eyebrow">Redakční studio</span>
         <Text className="dashboard-bar-title" fw={700}>
-          Studio Inkspire
+          Spider-Verse Studio
         </Text>
         <Text c="dimmed" size="sm">
           {userLabel}

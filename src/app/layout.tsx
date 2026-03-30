@@ -15,6 +15,7 @@ import { mantineComicTheme } from "@/lib/theme/mantine-comic-theme";
 import "./globals.css";
 import "./comic-theme.css";
 import "./magazine-theme.css";
+import "./spiderverse-effects.css";
 
 const headingFont = Archivo_Black({
   display: "swap",
@@ -33,7 +34,7 @@ const bodyFont = IBM_Plex_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseUrl()),
   title: {
-    default: `${siteConfig.name} | Český komiksový magazín`,
+    default: `${siteConfig.name} | Spider-Verse komiksový magazín`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl("/"),
   },
   openGraph: {
-    title: `${siteConfig.name} | Český komiksový magazín`,
+    title: `${siteConfig.name} | Spider-Verse komiksový magazín`,
     description: siteConfig.description,
     url: absoluteUrl("/"),
     siteName: siteConfig.name,
@@ -65,6 +66,15 @@ export default function RootLayout({
           <CookieConsentBanner />
           <ClarityLoader />
           <div className="site-shell">
+            {/* Floating geometric shapes */}
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+            <div className="shape shape-4"></div>
+            <div className="shape shape-5"></div>
+            {/* Web lines */}
+            <div className="shape shape-6"></div>
+            <div className="shape shape-7"></div>
             <SiteHeader />
             <main className="site-main">{children}</main>
             <SiteFooter />

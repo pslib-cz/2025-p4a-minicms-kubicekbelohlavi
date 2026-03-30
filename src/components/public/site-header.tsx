@@ -5,8 +5,11 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container site-header-inner">
         <Link className="brand" href="/">
-          <span className="brand-mark">Ink!</span>
-          <span>Inkspire</span>
+          <span className="brand-logo" data-text="SPIDER-VERSE">
+            <span className="brand-spider">SPIDER</span>
+            <span className="brand-dash">-</span>
+            <span className="brand-verse">VERSE</span>
+          </span>
         </Link>
         <nav className="site-nav">
           <Link href="/">Titulka</Link>

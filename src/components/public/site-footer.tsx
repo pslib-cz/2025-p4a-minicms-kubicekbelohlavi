@@ -6,10 +6,10 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="container site-footer-inner">
         <div>
-          <p className="footer-title">Inkspire</p>
+          <p className="footer-title">Spider-Verse</p>
           <p className="footer-copy">
-            Český komiksový magazín s vlastním CMS v Next.js, chráněným redakčním
-            studiem, serverovou logikou a analytikou pouze po souhlasu.
+            Spider-Verse komiksový magazín s vlastním CMS v Next.js — redakční
+            studio, serverová logika a analytika pouze po souhlasu.
           </p>
         </div>
         <div className="footer-links">

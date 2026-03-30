@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "@tiptap/extension-link";
+import Underline from "@tiptap/extension-underline";
 import StarterKit from "@tiptap/starter-kit";
 import { useEditor } from "@tiptap/react";
 import { RichTextEditor as MantineRichTextEditor } from "@mantine/tiptap";
@@ -16,6 +17,7 @@ export function RichTextEditor({ onChange, value }: RichTextEditorProps) {
     immediatelyRender: false,
     extensions: [
       StarterKit,
+      Underline,
       Link.configure({
         openOnClick: false,
       }),

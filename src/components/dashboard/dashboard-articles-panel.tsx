@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import { formatPanelNumber } from "@/lib/magazine";
 import type { DashboardArticle } from "@/components/dashboard/dashboard-types";
 
@@ -54,10 +54,10 @@ export function DashboardArticlesPanel({
         <Group justify="space-between">
           <div>
             <Text fw={700} size="lg">
-              Redakční přehled
+              Přehled článků
             </Text>
             <Text c="dimmed" size="sm">
-              {totalArticles} článků, rychlé publikování a přímý vstup do editoru.
+              {totalArticles} článků — kliknutím na kartu otevřete editor.
             </Text>
           </div>
         </Group>
@@ -71,13 +71,26 @@ export function DashboardArticlesPanel({
               const panelNumber = formatPanelNumber((page - 1) * pageSize + index);
 
               return (
-                <article className="dashboard-story-card" key={article.id}>
+                <article
+                  className="dashboard-story-card"
+                  key={article.id}
+                  onClick={() => onEdit(article)}
+                  role="button"
+                  style={{ cursor: "pointer" }}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onEdit(article);
+                    }
+                  }}
+                >
                   <div
                     className="dashboard-story-cover"
                     style={
                       article.coverImage
                         ? {
-                            backgroundImage: `linear-gradient(135deg, rgba(16, 21, 32, 0.18), rgba(16, 21, 32, 0.62)), url(${article.coverImage})`,
+                            backgroundImage: `linear-gradient(135deg, rgba(10, 10, 18, 0.18), rgba(10, 10, 18, 0.62)), url(${article.coverImage})`,
                           }
                         : undefined
                     }
@@ -96,7 +109,7 @@ export function DashboardArticlesPanel({
                         {article.category.name}
                       </Badge>
                       <Text c="dimmed" size="sm">
-                        Aktualizováno {formatUpdatedAt(article.updatedAt)}
+                        {formatUpdatedAt(article.updatedAt)}
                       </Text>
                     </Group>
                     <div>
@@ -107,7 +120,7 @@ export function DashboardArticlesPanel({
                         {article.slug}
                       </Text>
                     </div>
-                    <Text className="dashboard-story-excerpt" size="sm">
+                    <Text className="dashboard-story-excerpt" lineClamp={2} size="sm">
                       {article.excerpt}
                     </Text>
                     <Group className="dashboard-story-tags" gap="xs">
@@ -117,7 +130,7 @@ export function DashboardArticlesPanel({
                         </Badge>
                       ))}
                     </Group>
-                    <Group className="dashboard-story-actions" gap="xs">
+                    <Group className="dashboard-story-actions" gap="xs" onClick={(e) => e.stopPropagation()}>
                       <Button
                         onClick={() => onToggleStatus(article)}
                         size="xs"
@@ -127,13 +140,6 @@ export function DashboardArticlesPanel({
                           ? "Stáhnout do konceptu"
                           : "Publikovat"}
                       </Button>
-                      <ActionIcon
-                        aria-label={`Upravit článek ${article.title}`}
-                        onClick={() => onEdit(article)}
-                        variant="light"
-                      >
-                        <IconEdit size={16} />
-                      </ActionIcon>
                       <ActionIcon
                         aria-label={`Smazat článek ${article.title}`}
                         color="red"
@@ -150,9 +156,9 @@ export function DashboardArticlesPanel({
           </div>
         ) : (
           <div className="dashboard-empty-state">
-            <Text fw={700}>V přehledu zatím není žádný příběh.</Text>
+            <Text fw={700}>Zatím nemáte žádné články.</Text>
             <Text c="dimmed" size="sm">
-              Rozjeďte první koncept a postavte z něj další titulku.
+              Vytvořte svůj první článek pomocí průvodce.
             </Text>
             <Button onClick={onCreate}>Vytvořit první článek</Button>
           </div>

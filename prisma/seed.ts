@@ -18,218 +18,261 @@ async function main() {
   await prisma.account.deleteMany();
   await prisma.user.deleteMany();
 
-  const alice = await prisma.user.create({
+  const miles = await prisma.user.create({
     data: {
-      name: "Alice Editorka",
+      name: "Miles Morales",
       email: "alice@example.com",
+      passwordHash,
+      image:
+        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=512&q=80",
+    },
+  });
+
+  const gwen = await prisma.user.create({
+    data: {
+      name: "Gwen Stacy",
+      email: "pavel@example.com",
       passwordHash,
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=512&q=80",
     },
   });
 
-  const pavel = await prisma.user.create({
-    data: {
-      name: "Pavel Kurátor",
-      email: "pavel@example.com",
-      passwordHash,
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=512&q=80",
-    },
-  });
-
-  const [coverLine, lab, cityRhythm, panelStudio] = await Promise.all([
+  const [multiverse, brooklyn, villains, spiderTech] = await Promise.all([
     prisma.category.create({
       data: {
-        name: "Titulní linka",
-        slug: "titulni-linka",
-        ownerId: alice.id,
+        name: "Film a animace",
+        slug: "film-a-animace",
+        ownerId: miles.id,
       },
     }),
     prisma.category.create({
       data: {
-        name: "Redakční laboratoř",
-        slug: "redakcni-laborator",
-        ownerId: alice.id,
+        name: "Kultura a styl",
+        slug: "kultura-a-styl",
+        ownerId: miles.id,
       },
     }),
     prisma.category.create({
       data: {
-        name: "Městský rytmus",
-        slug: "mestsky-rytmus",
-        ownerId: pavel.id,
+        name: "Postavy a příběhy",
+        slug: "postavy-a-pribehy",
+        ownerId: gwen.id,
       },
     }),
     prisma.category.create({
       data: {
-        name: "Ateliér panelů",
-        slug: "atelier-panelu",
-        ownerId: pavel.id,
+        name: "Technologie",
+        slug: "technologie",
+        ownerId: gwen.id,
       },
     }),
   ]);
 
-  const [nextjs, raster, ux, diagonals, storytelling] = await Promise.all([
-    prisma.tag.create({
-      data: {
-        name: "Next.js",
-        slug: "nextjs",
-        ownerId: alice.id,
-      },
-    }),
-    prisma.tag.create({
-      data: {
-        name: "Rastr",
-        slug: "rastr",
-        ownerId: alice.id,
-      },
-    }),
-    prisma.tag.create({
-      data: {
-        name: "UX",
-        slug: "ux",
-        ownerId: alice.id,
-      },
-    }),
-    prisma.tag.create({
-      data: {
-        name: "Diagonály",
-        slug: "diagonaly",
-        ownerId: pavel.id,
-      },
-    }),
-    prisma.tag.create({
-      data: {
-        name: "Vyprávění",
-        slug: "vypraveni",
-        ownerId: pavel.id,
-      },
-    }),
-  ]);
+  const [tagSpiderVerse, tagAnimace, tagMiles, tagKingpin, tagPavucina, tagGraffiti] =
+    await Promise.all([
+      prisma.tag.create({
+        data: {
+          name: "Recenze",
+          slug: "recenze",
+          ownerId: miles.id,
+        },
+      }),
+      prisma.tag.create({
+        data: {
+          name: "Vizuální efekty",
+          slug: "vizualni-efekty",
+          ownerId: miles.id,
+        },
+      }),
+      prisma.tag.create({
+        data: {
+          name: "Hlavní hrdinové",
+          slug: "hlavni-hrdinove",
+          ownerId: miles.id,
+        },
+      }),
+      prisma.tag.create({
+        data: {
+          name: "Záporáci",
+          slug: "zaporaci",
+          ownerId: gwen.id,
+        },
+      }),
+      prisma.tag.create({
+        data: {
+          name: "Akční scény",
+          slug: "akcni-sceny",
+          ownerId: gwen.id,
+        },
+      }),
+      prisma.tag.create({
+        data: {
+          name: "Street art",
+          slug: "street-art",
+          ownerId: miles.id,
+        },
+      }),
+    ]);
 
   const articles = [
     {
-      authorId: alice.id,
-      categoryId: coverLine.id,
-      tagIds: [nextjs.id, raster.id],
-      title: "Jak postavit titulku, která otevře celé číslo na první pohled",
-      slug: "jak-postavit-titulku-ktera-otevre-cele-cislo-na-prvni-pohled",
+      authorId: miles.id,
+      categoryId: multiverse.id,
+      tagIds: [tagSpiderVerse.id, tagMiles.id, tagAnimace.id],
+      title: "Spider-Man: Paralelní světy — jak Miles Morales změnil pravidla multiverzálního vyprávění",
+      slug: "spider-man-paralelni-svety-jak-miles-morales-zmenil-pravidla",
       excerpt:
-        "Serverová titulka a klientské studio mohou držet jeden rytmus, když je hierarchie pevná, kontrast čistý a hlavní příběh má jasnou prioritu.",
+        "V roce 2018 přišel film, který rozbil všechna pravidla animace. Spider-Man: Paralelní světy ukázal, že každý může nosit masku — a každý vesmír má svůj vlastní vizuální jazyk.",
       content: `
-        <h2>Veřejná část musí mít tah</h2>
-        <p>Když má magazín působit jako hotové číslo, nesmí titulka vypadat jako náhodný seznam článků. Serverové vykreslení drží pořadí, metadata i sitemapu pevně v rukou.</p>
-        <p>App Router tu nechává veřejnou část rychlou a indexovatelnou, aniž by dashboard musel obětovat interaktivitu.</p>
-        <h2>Studio zůstává živé</h2>
-        <p>Redakční studio běží klientsky, ale mluví jen s Route Handlery. Vlastnictví obsahu a validace tak zůstávají na serveru, kde opravdu patří.</p>
+        <h2>Každý může být Spider-Man</h2>
+        <p>Miles Morales není jen další Spider-Man. Je důkazem, že hrdina nepotřebuje být kopií originálu. Když ho pavouk kousne v brooklynském metru, jeho svět se otočí vzhůru nohama — a s ním i celý multiverzum.</p>
+        <p>Film Spider-Man: Paralelní světy (2018) od režisérů Boba Persicchettiho, Petera Ramseyho a Rodneye Rothmana přinesl revoluci nejen v animaci, ale i ve způsobu, jakým vyprávíme příběhy o hrdinech.</p>
+        <blockquote>Kazdy muze nosit masku. Ty, ja, kdokoliv. Maska nerozhoduje o tom, kdo jsi — ale o tom, co udelas. — Miles Morales</blockquote>
+        <h2>Vizuální revoluce</h2>
+        <p>Halftone tečky, rozmazané okraje, chromatic aberration, graffiti textury — film vypadá jako živý komiks. Každý frame je jako vytržená stránka z komiksového sešitu, kde se potkávají různé styly kreslení.</p>
+        <p>Peter B. Parker přichází z vesmíru, který vypadá jako klasický Marvel komiks. Spider-Gwen přináší pastelovou paletu s punkovými akcenty. Peni Parker a SP//dr jsou čistá manga. Noir Spider-Man je černobílý film noir. A Spider-Ham? Ten je looney cartoon.</p>
+        <h2>Brooklyn jako hrdina</h2>
+        <p>Miles pochází z Brooklynu a jeho svět je prodchnutý street artem, hip-hopem a kulturou New Yorku. Jeho graffiti "No Expectations" se stalo ikonickým symbolem celého filmu.</p>
       `,
       coverImage:
-        "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=1200&q=80",
       status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-02-02T08:30:00.000Z"),
+      publishDate: new Date("2026-02-01T08:00:00.000Z"),
     },
     {
-      authorId: alice.id,
-      categoryId: lab.id,
-      tagIds: [ux.id, nextjs.id],
-      title: "Proč malé redakční studio poráží přebujelé kontrolní panely",
-      slug: "proc-male-redakcni-studio-porazi-prebujene-kontrolni-panely",
+      authorId: gwen.id,
+      categoryId: multiverse.id,
+      tagIds: [tagSpiderVerse.id, tagAnimace.id, tagPavucina.id],
+      title: "Vizuální DNA Spider-Verse: halftone, glitch a komiksové panely v pohybu",
+      slug: "vizualni-dna-spider-verse-halftone-glitch-komiks",
       excerpt:
-        "Když editor pracuje sám, jasné hranice vlastnictví a krátká cesta k publikaci vítězí nad funkcemi, které jen hlučí kolem.",
+        "Každý vesmír ve Spider-Verse má svůj vlastní vizuální jazyk. Od Ben-Day teček přes chromatic aberration až po manga panely — podíváme se na techniky, které z filmu udělaly revoluci.",
       content: `
-        <p>Dashboard začne dusit ve chvíli, kdy chce řešit všechno najednou. Menší kontrolní plocha nechá editorovi víc prostoru pro rytmus práce a méně prostoru pro bloudění.</p>
-        <blockquote>Rychlost CMS práce není jen o milisekundách. Je to i o tom, kolik hluku musí hlava odfiltrovat.</blockquote>
-        <p>Tahle sestava drží workflow na základních akcích: vytvořit, upravit, publikovat, filtrovat a smazat.</p>
+        <h2>Ben-Day tečky a halftone</h2>
+        <p>Klasické komiksové tečky (halftone pattern) jsou všude. Ve stínech postav, v pozadích, v explozích. Nejsou to jen dekorace — jsou to plnohodnotné stínovací techniky, které dávají filmu autentický komiksový charakter.</p>
+        <h2>Chromatic aberration</h2>
+        <p>Když se Miles poprvé "glitchne", vidíme červený a modrý offset jeho siluety. Tento efekt chromatic aberration se stal vizuální signaturou celého filmu a znamená nestabilitu mezi dimenzemi.</p>
+        <blockquote>"Glitch efekt není chyba — je to vizuální jazyk multiverzálního chaosu." — animační tým Sony Pictures</blockquote>
+        <h2>Komiksové panely v pohybu</h2>
+        <p>Film používá split-screen a komiksové panely jako narativní nástroj. Akční scény se rozkládají do více panelů současně, přesně jako na stránce komiksu. Onomatopoeia (THWIP!, POW!, BAM!) se objevují jako fyzické objekty ve scéně.</p>
+        <h2>Snížená snímková frekvence</h2>
+        <p>Miles se na začátku animuje na 12 snímcích za sekundu (na "dvojkách"), zatímco zkušení Spider-People se pohybují na plynulých 24 fps. Jak Miles získává sebedůvěru, jeho animace se plynule zrychluje — geniální vizuální vyprávění charakterového vývoje.</p>
       `,
       coverImage:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1557682250-33bd709cbe85?auto=format&fit=crop&w=1200&q=80",
       status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-01-25T10:00:00.000Z"),
+      publishDate: new Date("2026-02-10T10:00:00.000Z"),
     },
     {
-      authorId: pavel.id,
-      categoryId: cityRhythm.id,
-      tagIds: [storytelling.id, diagonals.id],
-      title: "Jak řadit fotky, aby galerie měla tah komiksového stripu",
-      slug: "jak-radit-fotky-aby-galerie-mela-tah-komiksoveho-stripu",
+      authorId: miles.id,
+      categoryId: brooklyn.id,
+      tagIds: [tagMiles.id, tagGraffiti.id],
+      title: "Miles a Brooklyn: graffiti, street art a identita Spider-Mana z ulice",
+      slug: "miles-a-brooklyn-graffiti-street-art-identita",
       excerpt:
-        "Řazení vizuálů je redakční disciplína. Dobrá galerie vede oko stejně jistě, jako silný článek vede čtenáře přes stránku.",
+        "Miles Morales není jen Spider-Man — je brooklynský teenager s náplní ve spreji a sluchátky na uších. Jeho umělecký talent definuje jeho cestu ke Spider-maskě.",
       content: `
-        <p>Galerie selže ve chvíli, kdy působí jako neuspořádané skladiště. Funguje až tehdy, kdy každý obraz odpovídá tomu předchozímu nebo ho záměrně komplikuje.</p>
+        <h2>Graffiti jako superschopnost</h2>
+        <p>Milesův vztah k street artu není jen pozadí — je to klíčový prvek jeho identity. Když maluje "No Expectations" na zeď metra, vyjadřuje svůj boj s očekáváními rodiny, školy a nového života na Visions Academy.</p>
+        <p>Jeho styl kreslení — bold linky, živé barvy, mix typografie a obrazu — se přímo promítá do vizuálního jazyka celého filmu.</p>
+        <h2>Brooklyn jako další postava</h2>
+        <p>Brooklyn v Paralelních světech není jen kulisa. Je to živý organismus — s bodegami, metrem, graffiti zdmi a zvuky ulice. Hudba od Daniela Pembertona a Post Malone s "Sunflower" dokonale zachycují energii městského života.</p>
+        <blockquote>"What's up danger?" — Miles Morales, ve chvíli kdy poprvé skočí z mrakodrapu</blockquote>
+        <h2>Leap of Faith</h2>
+        <p>Ikonická scéna "leap of faith" — Miles padá z budovy střemhlav, kamera je otočená, takže to vypadá, že stoupá — je jedním z nejslavnějších záběrů v historii animace. Je to okamžik, kdy Miles přijme svou identitu Spider-Mana.</p>
+      `,
+      coverImage:
+        "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=1200&q=80",
+      status: ArticleStatus.PUBLISHED,
+      publishDate: new Date("2026-02-18T07:30:00.000Z"),
+    },
+    {
+      authorId: gwen.id,
+      categoryId: villains.id,
+      tagIds: [tagKingpin.id, tagSpiderVerse.id],
+      title: "Kingpin a supercollider: když záporák rozbije hranice reality",
+      slug: "kingpin-a-supercollider-kdyz-zaporak-rozbije-hranice-reality",
+      excerpt:
+        "Wilson Fisk je jedním z nejzajímavějších záporáků v animované historii. Jeho motivace — vrátit mrtvou rodinu — pohání stroj, který trhá multiverzum na kusy.",
+      content: `
+        <h2>Tragický záporák</h2>
+        <p>Kingpin ve Spider-Verse není typický zloduch. Je to muž zničený ztrátou — jeho žena Vanessa a syn Richard ho opustili, když zjistili, kým doopravdy je. Supercollider je jeho zoufalý pokus přitáhnout verzi rodiny z jiného vesmíru.</p>
+        <h2>Vizuální design Kingpina</h2>
+        <p>Kingpinův design je geniální. Jeho tělo je obrovský černý obdélník, hlava je malá, a když se pohybuje, celý záběr se pod ním prohýbá. Je to vizuální metafora neúměrné moci.</p>
+        <blockquote>"You're not Spider-Man. You're just a kid." — Kingpin Milesovi</blockquote>
+        <h2>Supercollider a multiverzální chaos</h2>
+        <p>Supercollider pod Brooklynem otevírá portály do paralelních dimenzí. Každé zapnutí přitahuje Spider-lidi z jiných vesmírů a zároveň destabilizuje celou realitu. Vizuálně se to projevuje glitchováním — barvy se rozpadají, kontury se zdvojují, prostor se láme.</p>
+      `,
+      coverImage:
+        "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1200&q=80",
+      status: ArticleStatus.PUBLISHED,
+      publishDate: new Date("2026-02-25T12:00:00.000Z"),
+    },
+    {
+      authorId: miles.id,
+      categoryId: multiverse.id,
+      tagIds: [tagSpiderVerse.id, tagPavucina.id, tagAnimace.id],
+      title: "Každý Spider-Man, každý styl: průvodce postavami z Paralelních světů",
+      slug: "kazdy-spider-man-kazdy-styl-pruvodce-postavami",
+      excerpt:
+        "Peter B. Parker, Spider-Gwen, Noir, Peni Parker, Spider-Ham — každá postava přináší svůj vlastní vizuální vesmír a životní příběh.",
+      content: `
+        <h2>Peter B. Parker (Země-616B)</h2>
+        <p>Unavený, rozvedený, trochu při těle — Peter B. Parker je Spider-Man, který to vzdal. Jeho animace je záměrně "rozbitá" — pohybuje se líně, jí pizza ve špatných momentech a zároveň je tím nejzkušenějším členem týmu.</p>
+        <h2>Spider-Gwen (Země-65)</h2>
+        <p>Gwen Stacy z vesmíru, kde ona je Spider-Woman. Její svět je pastelově růžový a modrý, s výraznou punkovou estetikou. Její taneční pohyby v akci jsou inspirované baletem.</p>
+        <h2>Spider-Man Noir (Země-90214)</h2>
+        <p>Černobílý Spider-Man z éry prohibice. Mluví jako detektiv z filmů noir, nikdy neviděl barvy a nese s sebou Rubikovu kostku. Nicolas Cage mu propůjčil hlas s dokonalým noir monologem.</p>
+        <h2>Peni Parker & SP//dr (Země-14512)</h2>
+        <p>Manga-stylová hrdinka s psychickým propojením na pavoučího robota. Její animační styl je čistě japonský — velké oči, expresivní reakce a mecha akční sekvence.</p>
+        <h2>Spider-Ham (Země-8311)</h2>
+        <p>Peter Porker — prase, které je Spider-Man. Animovaný ve stylu Looney Tunes, tahá kladiva z ničeho a ignoruje fyziku. "Do animals talk in this dimension? Because I don't wanna freak him out."</p>
+      `,
+      coverImage:
+        "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=1200&q=80",
+      status: ArticleStatus.PUBLISHED,
+      publishDate: new Date("2026-03-05T09:00:00.000Z"),
+    },
+    {
+      authorId: gwen.id,
+      categoryId: spiderTech.id,
+      tagIds: [tagPavucina.id, tagAnimace.id],
+      title: "Spider-Sense a pavučinová technologie: jak fungují schopnosti napříč vesmíry",
+      slug: "spider-sense-a-pavucinova-technologie-schopnosti-napruc-vesmiry",
+      excerpt:
+        "Od Milesova bio-elektrického venom stingu po Gweniny pavučinové baletky — každý Spider-hrdina má unikátní sadu schopností odvozených z jeho vesmíru.",
+      content: `
+        <h2>Spider-Sense</h2>
+        <p>Spider-Sense ve filmu vypadá jinak než v jakémkoliv předchozím zpracování. Vlnky kolem hlavy, zkreslení času, vizuální šum — Miles ho zpočátku nechápe a neumí ovládat, což vede k mnoha komickým i dramatickým momentům.</p>
+        <h2>Milesovy unikátní schopnosti</h2>
+        <p>Miles má dvě schopnosti, které žádný jiný Spider-Man nemá:</p>
         <ul>
-          <li>Začněte nejsilnějším establishing záběrem.</li>
-          <li>Střídejte široké panely s detailem, aby nevypadl rytmus.</li>
-          <li>Končete obrazem, který po sobě nechá doznívat napětí.</li>
+          <li><strong>Neviditelnost</strong> — dokáže se zneviditelnit, včetně oblečení. Aktivuje se instinktivně, když má strach.</li>
+          <li><strong>Venom Strike</strong> — bio-elektrický výboj z prstů, který omráčí protivníky a zkratuje elektroniku.</li>
         </ul>
+        <h2>Web-Shootery vs. organické pavučiny</h2>
+        <p>Různí Spider-People používají různé typy pavučin. Peter B. Parker má mechanické web-shootery. Miles zdědil Peterovy shootery po jeho smrti. Gwen má vlastní verzi s baletním stylem houpání.</p>
+        <blockquote>"Pavučina není jen nástroj — je to prodloužení Spider-Smanovy identity." — vizuální koncept Sony Pictures</blockquote>
       `,
       coverImage:
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80",
       status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-02-14T07:45:00.000Z"),
+      publishDate: new Date("2026-03-12T06:30:00.000Z"),
     },
     {
-      authorId: pavel.id,
-      categoryId: panelStudio.id,
-      tagIds: [diagonals.id],
-      title: "Tři brzdy, které redakci zlomí dřív než samotný deploy",
-      slug: "tri-brzdy-ktere-redakci-zlomi-driv-nez-samotny-deploy",
-      excerpt:
-        "Většinu času nežerou buildy. Čas mizí ve smyčkách schvalování, mlhavém vlastnictví a slabé disciplíně kolem metadat.",
+      authorId: miles.id,
+      categoryId: brooklyn.id,
+      tagIds: [tagMiles.id, tagGraffiti.id],
+      title: "Rozpracováno: soundtrack Spider-Verse a jeho vliv na vizuální rytmus",
+      slug: "rozpracovano-soundtrack-spider-verse-vizualni-rytmus",
+      excerpt: "Nepublikovaný draft o tom, jak hudba od Post Malone, Juice WRLD a Daniela Pembertona formuje tempo animace.",
       content: `
-        <p>Největší tření nepřichází až v pipeline. Přichází tehdy, když nikdo přesně neví, kdo drží koncept, kdo smí publikovat a která metadata ještě chybí.</p>
-        <p>Dashboard s explicitním vlastnictvím a jasným statusem umí tuhle mlhu odstranit překvapivě rychle.</p>
+        <p>Tohle je rozpracovaný draft. Soundtrack Spider-Verse — od "Sunflower" po "What's Up Danger" — není jen doprovodná hudba. Je to páteř vizuálního rytmu celého filmu.</p>
+        <p>Každá akční scéna je choreografovaná na beat. "What's Up Danger" od Blackway & Black Caviar doprovází ikonický leap of faith — a tempo hudby přesně kopíruje Milesův pád a vzestup.</p>
       `,
       coverImage:
-        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
-      status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-02-19T12:10:00.000Z"),
-    },
-    {
-      authorId: alice.id,
-      categoryId: coverLine.id,
-      tagIds: [raster.id, nextjs.id],
-      title: "Koncept, datum vydání a proč musí být publikace naprosto čitelná",
-      slug: "koncept-datum-vydani-a-proc-musi-byt-publikace-naprosto-citelna",
-      excerpt:
-        "Publikační stav musí být explicitní, čitelný a z UI i API naprosto jednoznačný. Bez toho se magazín rozsype do šumu.",
-      content: `
-        <p>Publikační workflow začne praskat ve chvíli, kdy je stav jen naznačený. Bezpečnější je držet jasný stav koncept nebo publikováno a doplnit ho konkrétním datem vydání.</p>
-        <p>Přesně tohle v tomhle magazínu hlídá člankové API i editor modal.</p>
-      `,
-      coverImage:
-        "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80",
-      status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-03-01T09:15:00.000Z"),
-    },
-    {
-      authorId: pavel.id,
-      categoryId: panelStudio.id,
-      tagIds: [diagonals.id, storytelling.id],
-      title: "Titulka, která působí jako číslo magazínu, ne jako odkladiště článků",
-      slug: "titulka-ktera-pusobi-jako-cislo-magazinu-ne-jako-odkladiste-clanku",
-      excerpt:
-        "Titulka potřebuje hierarchii, kontrast a tempo. Reverzní chronologie je jen technický základ, ne redakční řešení.",
-      content: `
-        <p>Čtenář pozná záměr během pár sekund. Stejně rychle pozná i to, když titulka jen vysype poslední články bez rytmu.</p>
-        <p>Silná titulka používá hlavní příběh, hmatatelné karty, záměrné mezery a štítky jako tematické rozcestníky.</p>
-      `,
-      coverImage:
-        "https://images.unsplash.com/photo-1493421419110-74f4e85ba126?auto=format&fit=crop&w=1200&q=80",
-      status: ArticleStatus.PUBLISHED,
-      publishDate: new Date("2026-03-10T06:50:00.000Z"),
-    },
-    {
-      authorId: alice.id,
-      categoryId: lab.id,
-      tagIds: [ux.id],
-      title: "Rozpracováno: jak porovnat editor zkušenost bez ztráty tempa",
-      slug: "rozpracovano-jak-porovnat-editor-zkusenost-bez-ztraty-tempa",
-      excerpt: "Nepublikovaný draft určený pro ukázku ownership kontrol a změn publikačního stavu.",
-      content: `
-        <p>Tohle je draft článek. Na veřejné části schválně není vidět, dokud se nezmění jeho stav publikace.</p>
-      `,
-      coverImage:
-        "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
       status: ArticleStatus.DRAFT,
       publishDate: new Date("2026-04-01T08:00:00.000Z"),
     },
@@ -254,10 +297,10 @@ async function main() {
     });
   }
 
-  console.log("Demo obsah byl naplněn.");
+  console.log("Spider-Verse demo obsah byl naplněn.");
   console.log("Uživatelé:");
-  console.log("  alice@example.com / DemoPassword123!");
-  console.log("  pavel@example.com / DemoPassword123!");
+  console.log("  alice@example.com (Miles Morales) / DemoPassword123!");
+  console.log("  pavel@example.com (Gwen Stacy) / DemoPassword123!");
 }
 
 main()
