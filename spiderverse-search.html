@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spider-Verse Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS variables for Multiverse palette */
+        :root {
+            --red: #ff2a2a;
+            --blue: #00f0ff;
+            --magenta: #ff00ea;
+            --yellow: #ffd700;
+            --dark: #121212;
+            --light-dot: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--dark);
+            /* Comic book halftone pattern */
+            background-image: radial-gradient(var(--light-dot) 15%, transparent 16%),
+                              radial-gradient(var(--light-dot) 15%, transparent 16%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Scanline Overlay */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 7rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            position: relative;
+            color: white;
+            /* Chromatic offset shadow for 3D comic effect */
+            text-shadow: 5px 5px 0 var(--blue), -5px -5px 0 var(--red);
+            transform: skew(-8deg) rotate(-2deg);
+        }
+
+        /* Glitch effect for title */
+        h1::before, h1::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            transform: skew(-8deg) rotate(-2deg);
+        }
+        
+        h1::before {
+            left: 4px;
+            text-shadow: -3px 0 var(--red);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            z-index: -1;
+        }
+
+        h1::after {
+            left: -4px;
+            text-shadow: -3px 0 var(--blue);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+            z-index: -2;
+        }
+
+        @keyframes glitch-anim {
+            0%   { clip: rect(15px, 9999px, 85px, 0); }
+            10%  { clip: rect(54px, 9999px, 22px, 0); }
+            20%  { clip: rect(89px, 9999px, 63px, 0); }
+            30%  { clip: rect(11px, 9999px, 88px, 0); }
+            40%  { clip: rect(74px, 9999px, 14px, 0); }
+            50%  { clip: rect(32px, 9999px, 99px, 0); }
+            60%  { clip: rect(96px, 9999px, 47px, 0); }
+            70%  { clip: rect(4px, 9999px, 71px, 0); }
+            80%  { clip: rect(61px, 9999px, 35px, 0); }
+            90%  { clip: rect(28px, 9999px, 52px, 0); }
+            100% { clip: rect(83px, 9999px, 9px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0%   { clip: rect(35px, 9999px, 15px, 0); }
+            10%  { clip: rect(76px, 9999px, 82px, 0); }
+            20%  { clip: rect(21px, 9999px, 43px, 0); }
+            30%  { clip: rect(94px, 9999px, 28px, 0); }
+            40%  { clip: rect(18px, 9999px, 64px, 0); }
+            50%  { clip: rect(57px, 9999px, 11px, 0); }
+            60%  { clip: rect(88px, 9999px, 97px, 0); }
+            70%  { clip: rect(42px, 9999px, 51px, 0); }
+            80%  { clip: rect(13px, 9999px, 75px, 0); }
+            90%  { clip: rect(69px, 9999px, 32px, 0); }
+            100% { clip: rect(5px, 9999px, 86px, 0); }
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            transform: skew(-5deg);
+            box-shadow: 15px 15px 0 rgba(0,0,0,0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-wrapper:hover {
+            transform: skew(-5deg) translate(-5px, -5px);
+            box-shadow: 20px 20px 0 rgba(0,0,0,0.6);
+        }
+
+        /* Offset shadow for search box */
+        .search-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            right: -7px;
+            bottom: -7px;
+            background: var(--blue);
+            z-index: -1;
+            border: 3px solid var(--magenta);
+            mix-blend-mode: screen;
+        }
+        
+        /* Secondary offset shadow */
+        .search-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: 5px;
+            bottom: 5px;
+            background: var(--red);
+            z-index: -2;
+            border: 3px solid var(--yellow);
+            mix-blend-mode: multiply;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 25px 30px;
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            color: var(--dark);
+            border: 5px solid var(--dark);
+            background: white;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        button.search-btn {
+            padding: 0 45px;
+            background: var(--magenta);
+            color: white;
+            font-family: 'Bangers', cursive;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            border: 5px solid var(--dark);
+            border-left: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button.search-btn:hover {
+            background: var(--yellow);
+            color: var(--dark);
+            text-shadow: 2px 2px 0 white;
+        }
+
+        /* Abstract structural shapes */
+        .shape {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .shape-1 {
+            top: 15%;
+            left: 5%;
+            width: 250px;
+            height: 250px;
+            background: var(--magenta);
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            opacity: 0.9;
+            mix-blend-mode: color-dodge;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            bottom: 12%;
+            right: 5%;
+            width: 300px;
+            height: 80px;
+            background: var(--blue);
+            transform: skew(-30deg);
+            opacity: 0.9;
+            mix-blend-mode: difference;
+            animation: float 5s ease-in-out infinite reverse;
+        }
+        
+        .shape-3 {
+            bottom: 25%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+            background: transparent;
+            border: 12px solid var(--red);
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        .shape-4 {
+            top: 5%;
+            right: 15%;
+            width: 100px;
+            height: 100px;
+            background: var(--yellow);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            opacity: 0.8;
+            mix-blend-mode: hard-light;
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(15deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; border-color: var(--yellow); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(0.8); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+
+    <div class="container">
+        <!-- Title using data-text for the CSS ::before/::after glitch -->
+        <h1 data-text="MULTIVERSE SEARCH">MULTIVERSE SEARCH</h1>
+        <div class="search-wrapper">
+            <input type="text" placeholder="Leap into the unknown...">
+            <button class="search-btn">THWIP!</button>
+        </div>
+    </div>
+</body>
+</html>

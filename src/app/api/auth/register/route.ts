@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     where: { email },
     select: { id: true },
   });
-
+  dashboard
   if (existingUser) {
     return jsonError("Uživatel s tímto e-mailem už existuje.", 409);
   }
