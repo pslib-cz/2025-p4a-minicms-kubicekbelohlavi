@@ -10,6 +10,7 @@ import { ClarityLoader } from "@/components/analytics/clarity-loader";
 import { CookieConsentBanner } from "@/components/analytics/cookie-consent";
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
+import { SpiderWebCursor } from "@/components/public/spider-web-cursor";
 import { absoluteUrl, getBaseUrl, siteConfig } from "@/lib/site";
 import { mantineComicTheme } from "@/lib/theme/mantine-comic-theme";
 import "./globals.css";
@@ -48,6 +49,14 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | Spider-Verse komiksový magazín`,
+    description: siteConfig.description,
+  },
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -65,6 +74,7 @@ export default function RootLayout({
           <Notifications />
           <CookieConsentBanner />
           <ClarityLoader />
+          <SpiderWebCursor />
           <div className="site-shell">
             {/* Floating geometric shapes */}
             <div className="shape shape-1"></div>

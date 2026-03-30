@@ -4,12 +4,25 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatIssueLabel } from "@/lib/magazine";
 import { getPublishedArticleBySlug } from "@/lib/public-content";
-import { absoluteUrl } from "@/lib/site";
+import { prisma } from "@/lib/prisma";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 import { formatDate } from "@/lib/utils";
 
 export const revalidate = 60;
 
 type Params = Promise<{ slug: string }>;
+
+export async function generateStaticParams() {
+  const articles = await prisma.article.findMany({
+    where: {
+      status: "PUBLISHED",
+      publishDate: { lte: new Date() },
+    },
+    select: { slug: true },
+  });
+
+  return articles.map((article) => ({ slug: article.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -21,7 +34,7 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "Panel nenalezen",
+      title: "Článek nenalezen",
     };
   }
 
@@ -40,6 +53,12 @@ export async function generateMetadata({
       type: "article",
       publishedTime: new Date(article.publishDate).toISOString(),
       images: article.coverImage ? [{ url: article.coverImage }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
+      images: article.coverImage ? [article.coverImage] : undefined,
     },
   };
 }
@@ -60,7 +79,35 @@ export default async function ArticlePage({
   // Content is sanitized via sanitize-html in article-payload.ts before storage
   const sanitizedContent = article.content;
 
+  // JSON-LD uses sanitized article data from the database
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: article.coverImage || undefined,
+    datePublished: new Date(article.publishDate).toISOString(),
+    dateModified: new Date(article.updatedAt).toISOString(),
+    author: {
+      "@type": "Person",
+      name: article.author.name || "Redakce Spider-Verse",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(`/articles/${article.slug}`),
+    },
+  };
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <div className="container article-page">
       <div className="article-hero splash-hero" data-burst="BAM!">
         <div className="article-hero-copy splash-copy">
@@ -73,7 +120,7 @@ export default async function ArticlePage({
           <h1 data-text={article.title}>{article.title}</h1>
           <p>{article.excerpt}</p>
           <div className="article-meta-row splash-meta-row">
-            <span>{article.author.name || "Redakce Inkspire"}</span>
+            <span>{article.author.name || "Redakce Spider-Verse"}</span>
             <span>Vydáno {formatDate(article.publishDate)}</span>
             <span>Aktualizováno {formatDate(article.updatedAt)}</span>
           </div>
@@ -102,5 +149,6 @@ export default async function ArticlePage({
         dangerouslySetInnerHTML={{ __html: sanitizedContent }}
       />
     </div>
+    </>
   );
 }

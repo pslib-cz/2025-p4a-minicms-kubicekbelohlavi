@@ -53,7 +53,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
         </h3>
         <p>{article.excerpt}</p>
         <p className="article-card-byline">
-          Scénář: {article.author.name ?? "Redakce Inkspire"}
+          Scénář: {article.author.name ?? "Redakce Spider-Verse"}
         </p>
         <div className="article-meta article-panel-links">
           <Link href={`/?category=${article.category.slug}`}>{article.category.name}</Link>

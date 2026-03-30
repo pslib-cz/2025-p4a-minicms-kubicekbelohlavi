@@ -1,7 +1,7 @@
 export const siteConfig = {
-  name: "Inkspire",
+  name: "Spider-Verse",
   description:
-    "Český komiksový magazín s energií titulních celostránkových panelů, redakčním studiem a vlastním CMS v Next.js.",
+    "Komiksový magazín z paralelních světů — Spider-Verse CMS postavený na Next.js s redakčním studiem a příběhy napříč dimenzemi.",
   pageSize: 6,
   dashboardPageSize: 8,
   consentRevision: 2,

@@ -46,7 +46,21 @@ export default async function Home({
   const archiveLabel = formatArticleCount(result.total);
   const featuredImageIsRemote = Boolean(featured?.coverImage?.startsWith("http"));
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    description: siteConfig.description,
+    url: absoluteUrl("/"),
+  };
+
+  // JSON-LD uses trusted static siteConfig values, not user input
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
     <div className="container page-stack">
       <section className="hero-card hero-stacked" data-burst="THWIP!">
         <div className="hero-banner">
@@ -116,7 +130,7 @@ export default async function Home({
             <h2>{featured.title}</h2>
             <p>{featured.excerpt}</p>
             <div className="story-meta-strip">
-              <span>{featured.author.name ?? "Redakce Inkspire"}</span>
+              <span>{featured.author.name ?? "Redakce Spider-Verse"}</span>
               <span>
                 Publikováno{" "}
                 {new Intl.DateTimeFormat("cs-CZ", {
@@ -185,5 +199,6 @@ export default async function Home({
         totalPages={result.totalPages}
       />
     </div>
+    </>
   );
 }
