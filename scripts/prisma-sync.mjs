@@ -25,7 +25,7 @@ const command = process.platform === "win32" ? "npx.cmd" : "npx";
 
 execFileSync(
   command,
-  ["prisma", "db", "push", "--schema", "prisma/schema.postgres.prisma", "--skip-generate"],
+  ["prisma", "db", "push", "--schema", "prisma/schema.postgres.prisma"],
   {
     stdio: "inherit",
   },
