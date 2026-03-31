@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Clarity from "@microsoft/clarity";
 import * as CookieConsent from "vanilla-cookieconsent";
+import { syncClarityConsentState } from "@/lib/analytics/clarity-consent";
 
 declare global {
   interface Window {
@@ -19,23 +20,11 @@ function hasAnalyticsConsent() {
 }
 
 function syncClarityConsent(projectId: string) {
-  const granted = hasAnalyticsConsent();
-
-  if (granted && !window.__inkspireClarityInitialized) {
-    Clarity.init(projectId);
-    window.__inkspireClarityInitialized = true;
-  }
-
-  if (window.__inkspireClarityInitialized) {
-    Clarity.consentV2({
-      ad_Storage: granted ? "granted" : "denied",
-      analytics_Storage: granted ? "granted" : "denied",
-    });
-  }
+  syncClarityConsentState(Clarity, window, projectId, hasAnalyticsConsent());
 }
 
 export function ClarityLoader() {
-  const projectId = process.env.NEXT_PUBLIC_CLARITY_ID;
+  const projectId = process.env.NEXT_PUBLIC_CLARITY_ID?.trim();
 
   useEffect(() => {
     if (!projectId) {

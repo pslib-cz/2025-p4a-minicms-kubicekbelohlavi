@@ -18,6 +18,16 @@ test.describe("SEO", () => {
     expect(description).toBeTruthy();
   });
 
+  test("home page has Google Search Console verification meta tag", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const verification = await page
+      .locator('meta[name="google-site-verification"]')
+      .getAttribute("content");
+    expect(verification).toBe("POxahttUfI0JvCBsFQmvxbP0SrkDdWF-g-j457jTOxk");
+  });
+
   test("home page has OpenGraph meta tags", async ({ page }) => {
     await page.goto("/");
     const ogTitle = await page
