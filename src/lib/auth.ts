@@ -9,7 +9,10 @@ import {
   resolveSessionSafely,
   shouldIgnoreAuthLoggerError,
 } from "@/lib/auth-session";
+import { createDiscordProvider } from "@/lib/discord-auth";
 import { loginSchema } from "@/lib/validation/auth";
+
+const discordProvider = createDiscordProvider();
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -74,6 +77,7 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+    ...(discordProvider ? [discordProvider] : []),
   ],
   callbacks: {
     async jwt({ token, user }) {

@@ -6,15 +6,21 @@ import { useState } from "react";
 import {
   Alert,
   Button,
+  Divider,
   PasswordInput,
   Stack,
   TextInput,
 } from "@mantine/core";
+import { DiscordAuthButton } from "@/components/auth/discord-auth-button";
 import { useForm } from "@mantine/form";
 import { registerSchema } from "@/lib/validation/auth";
 import { formResolver } from "@/lib/validation/form-resolver";
 
-export function RegisterForm() {
+type RegisterFormProps = {
+  discordEnabled: boolean;
+};
+
+export function RegisterForm({ discordEnabled }: RegisterFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -67,6 +73,13 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit}>
       <Stack>
+        {discordEnabled ? (
+          <DiscordAuthButton
+            callbackUrl="/dashboard"
+            label="Vytvořit účet přes Discord"
+          />
+        ) : null}
+        {discordEnabled ? <Divider label="nebo" labelPosition="center" /> : null}
         {error ? <Alert color="red">{error}</Alert> : null}
         <TextInput
           label="Jméno"

@@ -2,8 +2,11 @@ import Link from "next/link";
 import { Paper, Stack, Text } from "@mantine/core";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { RegisterForm } from "@/components/auth/register-form";
+import { isDiscordAuthEnabled } from "@/lib/discord-auth";
 
 export default function RegisterPage() {
+  const discordEnabled = isDiscordAuthEnabled();
+
   return (
     <div className="container">
       <AuthShell
@@ -13,7 +16,7 @@ export default function RegisterPage() {
       >
         <Paper p="xl" radius="lg" shadow="sm" withBorder>
           <Stack>
-            <RegisterForm />
+            <RegisterForm discordEnabled={discordEnabled} />
             <Text c="dimmed" size="sm">
               Už máte identitu? <Link href="/login">Přejděte na přihlášení.</Link>
             </Text>

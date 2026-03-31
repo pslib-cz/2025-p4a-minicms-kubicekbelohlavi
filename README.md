@@ -155,11 +155,21 @@ Required for local development:
 DATABASE_URL="file:./dev.db"
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="replace-with-a-long-random-secret"
+DISCORD_CLIENT_ID=""
+DISCORD_CLIENT_SECRET=""
+DISCORD_ADDITIONAL_SCOPES=""
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 NEXT_PUBLIC_CLARITY_ID=""
 ```
 
 `NEXT_PUBLIC_CLARITY_ID` is optional. If empty, analytics remain disabled.
+
+Discord login is optional. When enabled:
+
+- register `http://localhost:3000/api/auth/callback/discord` as the local redirect URI in the Discord Developer Portal
+- register your production callback URL in the same format, for example `https://cms.ivo.titanium.tkdev.cz/api/auth/callback/discord`
+- keep `DISCORD_ADDITIONAL_SCOPES` empty for standard sign-in
+- set `DISCORD_ADDITIONAL_SCOPES="connections"` only if the app will actually call Discord APIs that require the extra scope
 
 ## Deployment Notes
 
