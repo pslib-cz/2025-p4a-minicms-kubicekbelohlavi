@@ -11,6 +11,12 @@ export function isSqliteDatabaseUrl(databaseUrl?: string) {
   return normalizeDatabaseUrl(databaseUrl).startsWith(SQLITE_URL_PREFIX);
 }
 
+export function isPostgresDatabaseUrl(databaseUrl?: string) {
+  const normalizedDatabaseUrl = normalizeDatabaseUrl(databaseUrl);
+
+  return POSTGRES_PROTOCOLS.some((protocol) => normalizedDatabaseUrl.startsWith(protocol));
+}
+
 export function getPrismaSchemaPath(databaseUrl?: string) {
   const normalizedDatabaseUrl = normalizeDatabaseUrl(databaseUrl);
 
@@ -18,9 +24,13 @@ export function getPrismaSchemaPath(databaseUrl?: string) {
     return "prisma/schema.prisma";
   }
 
-  if (POSTGRES_PROTOCOLS.some((protocol) => normalizedDatabaseUrl.startsWith(protocol))) {
+  if (isPostgresDatabaseUrl(normalizedDatabaseUrl)) {
     return "prisma/schema.postgres.prisma";
   }
 
   throw new Error(`Unsupported DATABASE_URL protocol: ${normalizedDatabaseUrl}`);
+}
+
+export function shouldSyncDatabaseSchema(databaseUrl?: string) {
+  return isPostgresDatabaseUrl(databaseUrl);
 }

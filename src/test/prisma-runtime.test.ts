@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   getPrismaSchemaPath,
+  isPostgresDatabaseUrl,
   isSqliteDatabaseUrl,
   normalizeDatabaseUrl,
+  shouldSyncDatabaseSchema,
 } from "@/lib/prisma-runtime";
 
 describe("prisma runtime helpers", () => {
@@ -14,12 +16,19 @@ describe("prisma runtime helpers", () => {
 
   it("switches to the PostgreSQL schema for deployment URLs", () => {
     expect(isSqliteDatabaseUrl("postgresql://user:pass@host:5432/app")).toBe(false);
+    expect(isPostgresDatabaseUrl("postgresql://user:pass@host:5432/app")).toBe(true);
     expect(getPrismaSchemaPath("postgresql://user:pass@host:5432/app")).toBe(
       "prisma/schema.postgres.prisma",
     );
     expect(getPrismaSchemaPath("prisma+postgres://accelerate.example")).toBe(
       "prisma/schema.postgres.prisma",
     );
+  });
+
+  it("syncs the schema only for PostgreSQL deployment URLs", () => {
+    expect(shouldSyncDatabaseSchema(undefined)).toBe(false);
+    expect(shouldSyncDatabaseSchema("file:./dev.db")).toBe(false);
+    expect(shouldSyncDatabaseSchema("postgres://user:pass@host:5432/app")).toBe(true);
   });
 
   it("rejects unsupported database protocols", () => {
